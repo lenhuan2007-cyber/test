@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiniGame Tổng Kết Kiến Thức</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      min-height: 100vh;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .answer:hover {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center p-4">
+
+  <div class="w-full max-w-3xl card rounded-3xl p-6 shadow-2xl">
+
+    <!-- START SCREEN -->
+    <div id="startScreen">
+      <h1 class="text-4xl font-bold text-center mb-4">🎮 MiniGame Tổng Kết Kiến Thức</h1>
+      <p class="text-center text-gray-300 mb-6">
+        Trả lời câu hỏi để xem ai là người hiểu bài nhất 😎
+      </p>
+
+      <div class="flex flex-col gap-4">
+        <input id="playerName" type="text" placeholder="Nhập tên của bạn..."
+          class="p-3 rounded-xl text-black outline-none" />
+
+        <button onclick="startGame()"
+          class="bg-blue-500 hover:bg-blue-600 transition p-3 rounded-xl font-bold text-lg">
+          Bắt Đầu
+        </button>
+      </div>
+
+      <div class="mt-8 text-sm text-gray-400 text-center">
+        💡 Bạn có thể đăng file này lên GitHub Pages / Netlify và gửi link cho mọi người tham gia.
+      </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="gameScreen" class="hidden">
+      <div class="flex justify-between items-center mb-4">
+        <div>
+          <h2 class="text-2xl font-bold" id="questionNumber"></h2>
+          <p class="text-gray-300" id="scoreText">Điểm: 0</p>
+        </div>
+
+        <div class="text-right">
+          <div class="text-3xl font-bold text-yellow-300" id="timer">15</div>
+          <div class="text-sm text-gray-300">giây</div>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h3 id="questionText" class="text-2xl font-semibold"></h3>
+      </div>
+
+      <div id="answers" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="resultScreen" class="hidden text-center">
+      <h1 class="text-4xl font-bold mb-4">🏆 Hoàn Thành!</h1>
+
+      <p class="text-2xl mb-2">
+        Người chơi: <span id="finalName" class="font-bold text-blue-300"></span>
+      </p>
+
+      <p class="text-3xl font-bold mb-6">
+        Điểm số: <span id="finalScore" class="text-yellow-300"></span>
+      </p>
+
+      <div id="rankMessage" class="text-xl mb-6"></div>
+
+      <button onclick="restartGame()"
+        class="bg-green-500 hover:bg-green-600 transition px-6 py-3 rounded-xl font-bold text-lg">
+        Chơi Lại
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const quiz = [
+      {
+        question: "HTML dùng để làm gì?",
+        answers: [
+          "Thiết kế giao diện web",
+          "Lập trình game",
+          "Lưu dữ liệu",
+          "Tạo hệ điều hành"
+        ],
+        correct: 0
+      },
+      {
+        question: "CSS có chức năng gì?",
+        answers: [
+          "Xử lý database",
+          "Trang trí giao diện",
+          "Lưu file",
+          "Tăng tốc internet"
+        ],
+        correct: 1
+      },
+      {
+        question: "JavaScript dùng để?",
+        answers: [
+          "Tạo tương tác cho website",
+          "Làm CPU mạnh hơn",
+          "Cài Windows",
+          "Vẽ bằng Paint"
+        ],
+        correct: 0
+      },
+      {
+        question: "Thẻ nào dùng để tạo liên kết trong HTML?",
+        answers: [
+          "<img>",
+          "<link>",
+          "<a>",
+          "<div>"
+        ],
+        correct: 2
+      },
+      {
+        question: "Ai đẹp trai nhất lớp? 😏",
+        answers: [
+          "Người thuyết trình",
+          "Người thuyết trình",
+          "Người thuyết trình",
+          "Tất cả đáp án trên"
+        ],
+        correct: 3
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let timer = 15;
+    let countdown;
+    let playerName = "";
+
+    const startScreen = document.getElementById("startScreen");
+    const gameScreen = document.getElementById("gameScreen");
+    const resultScreen = document.getElementById("resultScreen");
+
+    function startGame() {
+      const input = document.getElementById("playerName");
+
+      if (!input.value.trim()) {
+        alert("Vui lòng nhập tên!");
+        return;
+      }
+
+      playerName = input.value;
+
+      startScreen.classList.add("hidden");
+      gameScreen.classList.remove("hidden");
+
+      currentQuestion = 0;
+      score = 0;
+
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      clearInterval(countdown);
+      timer = 15;
+      document.getElementById("timer").textContent = timer;
+
+      countdown = setInterval(() => {
+        timer--;
+        document.getElementById("timer").textContent = timer;
+
+        if (timer <= 0) {
+          clearInterval(countdown);
+          nextQuestion();
+        }
+      }, 1000);
+
+      const q = quiz[currentQuestion];
+
+      document.getElementById("questionNumber").textContent =
+        `Câu ${currentQuestion + 1}/${quiz.length}`;
+
+      document.getElementById("questionText").textContent = q.question;
+      document.getElementById("scoreText").textContent = `Điểm: ${score}`;
+
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+
+      q.answers.forEach((answer, index) => {
+        const button = document.createElement("button");
+
+        button.className =
+          "answer bg-white/10 hover:bg-white/20 transition p-4 rounded-2xl text-left font-semibold";
+
+        button.textContent = answer;
+
+        button.onclick = () => checkAnswer(index);
+
+        answersDiv.appendChild(button);
+      });
+    }
+
+    function checkAnswer(index) {
+      clearInterval(countdown);
+
+      const correct = quiz[currentQuestion].correct;
+
+      if (index === correct) {
+        score += 10;
+      }
+
+      nextQuestion();
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+
+      if (currentQuestion >= quiz.length) {
+        endGame();
+      } else {
+        loadQuestion();
+      }
+    }
+
+    function endGame() {
+      gameScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+
+      document.getElementById("finalName").textContent = playerName;
+      document.getElementById("finalScore").textContent = score;
+
+      let message = "";
+
+      if (score === 50) {
+        message = "🔥 Quá đỉnh luôn!";
+      } else if (score >= 30) {
+        message = "😎 Khá hiểu bài đó nha!";
+      } else {
+        message = "😂 Cần ôn thêm rồi!";
+      }
+
+      document.getElementById("rankMessage").textContent = message;
+    }
+
+    function restartGame() {
+      resultScreen.classList.add("hidden");
+      startScreen.classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
