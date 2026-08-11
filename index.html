@@ -1,475 +1,186 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🚀 Space Quiz Race</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      margin: 0;
-      overflow-x: hidden;
-      font-family: Arial, sans-serif;
-      background: radial-gradient(circle at top, #0f172a, #020617);
-      color: white;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="AI Research Hub - Ứng dụng Generative AI trong hỗ trợ học lập trình">
+<title>AI Research Hub</title>
+<style>
+:root{--p:#2563eb;--i:#4f46e5;--bg:#f6f8fc;--c:#fff;--t:#172033;--m:#64748b;--l:#e2e8f0;--g:#15803d;--r:#b91c1c;--o:#c2410c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font:15px/1.65 Arial,"Segoe UI",sans-serif;color:var(--t);background:var(--bg)}
+a{text-decoration:none;color:inherit}button,input{font:inherit}header{position:sticky;top:0;z-index:10;background:#fffffff5;border-bottom:1px solid var(--l)}
+.nav{max-width:1180px;margin:auto;min-height:68px;padding:0 20px;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:800;color:var(--p);display:flex;align-items:center;gap:10px}.logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--i));color:white;display:grid;place-items:center}.links{display:flex;gap:18px;font-size:13px;color:#475569}.links a:hover{color:var(--p)}.menu{display:none;border:0;background:#eff6ff;padding:9px;border-radius:8px}
+.hero{color:white;background:linear-gradient(135deg,#123b9b,#4f46e5)}.heroIn{max-width:1180px;margin:auto;padding:70px 20px 78px}.k{font-size:12px;font-weight:bold;letter-spacing:1px;color:#bfdbfe}h1{font-size:clamp(32px,5vw,54px);line-height:1.12;max-width:900px;margin:12px 0 18px}.hero p{max-width:820px;color:#dbeafe}.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}.pill{padding:6px 10px;border:1px solid #ffffff40;border-radius:99px;background:#ffffff18;font-size:12px}
+.wrap{max-width:1180px;margin:auto;padding:36px 20px}.layout{display:grid;grid-template-columns:245px 1fr;gap:30px}.toc{position:sticky;top:88px;height:max-content;background:white;border:1px solid var(--l);border-radius:15px;padding:17px}.toc b{font-size:13px}.toc a{display:block;color:var(--m);font-size:12px;padding:7px 8px;border-radius:7px}.toc a:hover{background:#eff6ff;color:var(--p)}
+section{scroll-margin-top:88px;margin-bottom:44px}.title{font-size:25px;margin:0 0 10px}.lead{color:#334155}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:18px}.card{background:var(--c);border:1px solid var(--l);border-radius:15px;padding:19px;box-shadow:0 5px 18px #0f172a09}.card h3{font-size:15px;margin:8px 0 5px}.card p{font-size:13px;color:var(--m);margin:0}.num{font-size:27px;font-weight:bold;color:var(--p)}
+.callout{margin:18px 0;padding:16px 18px;border-left:4px solid var(--p);border-radius:0 12px 12px 0;background:#eff6ff}.warn{border-color:var(--o);background:#fff7ed}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0}.flow div{text-align:center;background:white;border:1px solid var(--l);border-radius:12px;padding:14px;font-size:12px}.flow b{display:block;color:var(--p)}
+.table{overflow:auto;background:white;border:1px solid var(--l);border-radius:14px}table{border-collapse:collapse;width:100%;min-width:740px}th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--l);font-size:13px;vertical-align:top}th{background:#f8fafc;font-size:12px;color:#475569}tr:last-child td{border:0}.badge{display:inline-block;border-radius:99px;padding:4px 8px;font-size:10px;font-weight:bold}.good{background:#dcfce7;color:var(--g)}.bad{background:#fee2e2;color:var(--r)}
+.search{display:flex;gap:8px;margin:14px 0}.search input{flex:1;padding:10px 12px;border:1px solid var(--l);border-radius:10px;outline:0}.search button{border:0;background:var(--p);color:white;border-radius:10px;padding:0 15px}.ref{padding:12px 0;border-bottom:1px solid var(--l);font-size:13px}
+footer{background:#0f172a;color:#cbd5e1;padding:35px 20px}footer div{max-width:1180px;margin:auto}footer strong{color:white}
 
-    .glass {
-      background: rgba(15,23,42,0.45);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: all 0.8s ease;
-    }
+/* CSS CHO HIỆU ỨNG MỞ SÁCH VÀ BẮN CODE/CHIP */
+#book-overlay {
+    position: fixed; inset: 0; background: radial-gradient(circle, #0f172a 0%, #020617 100%);
+    z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease; overflow: hidden; cursor: pointer;
+}
+#book-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.book-container { position: relative; width: 140px; height: 100px; background: #2563eb; border-radius: 6px; box-shadow: 0 15px 35px rgba(37,99,235,0.4); display: flex; align-items: center; justify-content: center; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.book-container::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 6px; background: rgba(0,0,0,0.2); }
+.book-text { color: white; font-weight: bold; font-size: 14px; text-align: center; padding: 0 10px; z-index: 2; }
+.particle { position: absolute; font-family: monospace; font-size: 13px; font-weight: bold; pointer-events: none; opacity: 0; transition: all 1s cubic-bezier(0.25, 1, 0.5, 1); white-space: nowrap; }
+.book-container.open { transform: scale(7); opacity: 0; }
+.hint-text { margin-top: 30px; color: #94a3b8; font-size: 14px; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-    .ship {
-      position: absolute;
-      transition: all 1s ease;
-      font-size: 42px;
-    }
-
-    .planet {
-      animation: float 3s infinite ease-in-out;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
-    }
-  </style>
+@media(max-width:850px){.links{display:none}.menu{display:block}.layout{grid-template-columns:1fr}.toc{position:relative;top:0}.grid{grid-template-columns:1fr 1fr}.flow{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.grid,.flow{grid-template-columns:1fr}.heroIn{padding:52px 18px}.wrap{padding:28px 15px}}
+</style>
 </head>
 <body>
 
-<div class="min-h-screen flex flex-col items-center justify-center p-4">
-
-  <!-- START -->
-  <div id="startScreen" class="glass rounded-3xl p-8 w-full max-w-2xl shadow-2xl text-center">
-
-    <div class="grid md:grid-cols-2 gap-4 mb-6">
-      <button onclick="createRoom()"
-        class="bg-green-500 hover:bg-green-600 transition p-4 rounded-2xl text-xl font-bold">
-        👑 Tạo Phòng
-      </button>
-
-      <button onclick="joinRoom()"
-        class="bg-purple-500 hover:bg-purple-600 transition p-4 rounded-2xl text-xl font-bold">
-        🚪 Vào Phòng
-      </button>
+<!-- MÀN HÌNH HIỆU ỨNG CUỐN SÁCH -->
+<div id="book-overlay" onclick="triggerBookEffect()">
+    <div class="book-container" id="bookBox">
+        <div class="book-text">📖 AI Hub</div>
     </div>
-
-    <input id="roomCode" type="text"
-      placeholder="Nhập mã phòng..."
-      class="w-full p-4 rounded-2xl text-black text-lg mb-4" />
-    <h1 class="text-5xl font-bold mb-4">🚀 Space Quiz Race</h1>
-
-    <p class="text-gray-300 mb-6 text-lg">
-      Trả lời đúng để tăng tốc tàu vũ trụ và giành chiến thắng tới Trái Đất 🌍
-    </p>
-
-    <div class="space-y-4">
-      <input id="playerName" type="text"
-        placeholder="Nhập tên người chơi..."
-        class="w-full p-4 rounded-2xl text-black text-lg" />
-
-      <button id="startBtn" onclick="startGame()"
-        class="bg-blue-500 hover:bg-blue-600 transition px-6 py-4 rounded-2xl font-bold text-xl w-full">
-        Bắt Đầu Cuộc Đua
-      </button>
-    </div>
-  </div>
-
-  <!-- GAME -->
-  <audio id="correctSound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"></audio>
-  <audio id="wrongSound" src="https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3"></audio>
-  <audio id="moveSound" src="https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3"></audio>
-
-  <div id="gameScreen" class="hidden w-full max-w-5xl relative">
-
-    <div id="questionPanel" class="glass rounded-3xl p-6 mb-6 shadow-2xl relative z-10">
-      <div class="flex justify-between items-center mb-4">
-        <div>
-          <h2 id="questionNumber" class="text-2xl font-bold"></h2>
-          <p id="scoreText" class="text-yellow-300 text-lg"></p>
-        </div>
-
-        <div class="text-right">
-          <div id="timer" class="text-5xl font-bold text-red-400">15</div>
-          <div class="text-gray-300">giây</div>
-        </div>
-      </div>
-
-      <h3 id="questionText" class="text-3xl font-bold mb-6"></h3>
-
-      <div id="answers" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-    </div>
-
-    <!-- SPACE RACE BACKGROUND -->
-    <div id="raceScene" class="rounded-3xl p-6 relative overflow-hidden h-[420px] -mt-[260px]">
-
-      <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
-
-      <div class="absolute right-10 top-1/2 -translate-y-1/2 text-8xl planet">
-        🌍
-      </div>
-
-      <div class="absolute left-0 top-0 w-full h-full" id="raceTrack">
-
-        <div class="ship" id="playerShip" style="top: 40px; left: 20px;">
-          🚀
-          <div class="text-sm text-center mt-1" id="playerLabel"></div>
-        </div>
-
-        <div class="ship" id="bot1" style="top: 120px; left: 20px;">
-          🛸
-          <div class="text-sm text-center mt-1">Bot Alpha</div>
-        </div>
-
-        <div class="ship" id="bot2" style="top: 200px; left: 20px;">
-          🚁
-          <div class="text-sm text-center mt-1">Bot Omega</div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- RESULT -->
-  <div id="resultScreen" class="hidden glass rounded-3xl p-10 text-center max-w-2xl shadow-2xl">
-    <h1 class="text-5xl font-bold mb-6">🏆 KẾT THÚC!</h1>
-
-    <div id="winnerText" class="text-3xl font-bold text-yellow-300 mb-4"></div>
-
-    <p class="text-2xl mb-6">
-      Tàu của bạn đã đáp xuống Trái Đất thành công 🌍
-    </p>
-
-    <div class="text-8xl mb-8 animate-bounce">🚀</div>
-
-    <button onclick="restartGame()"
-      class="bg-green-500 hover:bg-green-600 transition px-8 py-4 rounded-2xl text-xl font-bold">
-      Chơi Lại
-    </button>
-  </div>
+    <div class="hint-text">✨ Bấm vào đây để mở sách, kích hoạt Công nghệ & Chip AI! ✨</div>
 </div>
 
-<!--
-🔥 ONLINE MULTIPLAYER VERSION
-
-Để game online hoạt động:
-
-1. Tạo Firebase project:
-https://console.firebase.google.com/
-
-2. Bật:
-- Realtime Database
-- Authentication > Anonymous
-
-3. Thay firebaseConfig bằng config của bạn.
-
-4. Host bằng:
-- GitHub Pages
-- Netlify
-- Vercel
-
-Tính năng online:
-✅ Chủ phòng tạo room
-✅ Người chơi nhập code để vào
-✅ Tối đa 50 player
-✅ Chủ phòng bấm Start để bắt đầu
-✅ Mỗi player = 1 tàu vũ trụ
-✅ Real-time race
-
--->
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getDatabase,
-    ref,
-    set,
-    get,
-    update,
-    onValue,
-    push
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBNXVYs6GIcjtWpBzsqrDKnof9IvyyUHTA",
-    authDomain: "space-quiz-c072a.firebaseapp.com",
-    databaseURL: "https://space-quiz-c072a-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "space-quiz-c072a",
-    storageBucket: "space-quiz-c072a.firebasestorage.app",
-    messagingSenderId: "571839208944",
-    appId: "1:571839208944:web:5047215c28f06187095135",
-    measurementId: "G-GN86BBDM2Q"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-
-  const quiz = [
-    {
-      question: "Internet là gì?",
-      answers: ["Mạng toàn cầu", "Một game", "CPU", "Máy in"],
-      correct: 0
-    },
-    {
-      question: "HTML dùng để?",
-      answers: ["Lập trình AI", "Tạo giao diện web", "Hack wifi", "Làm game 3D"],
-      correct: 1
-    },
-    {
-      question: "CSS có chức năng gì?",
-      answers: ["Trang trí giao diện", "Lưu dữ liệu", "Tạo virus", "Tăng FPS"],
-      correct: 0
-    },
-    {
-      question: "JavaScript giúp gì cho web?",
-      answers: ["Tạo tương tác", "Nấu ăn", "Cài win", "Làm CPU mạnh"],
-      correct: 0
-    },
-    {
-      question: "Ai sẽ thắng cuộc đua hôm nay? 😎",
-      answers: ["Bạn", "Bạn", "Bạn", "Tất cả đáp án trên"],
-      correct: 3
-    }
-  ];
-
-  let roomId = "";
-  let isHost = false;
-
-  let currentQuestion = 0;
-  let score = 0;
-  let timer = 15;
-  let countdown;
-  let playerName = "";
-
-  let playerDistance = 20;
-  let bot1Distance = 20;
-  let bot2Distance = 20;
-
-  const startScreen = document.getElementById("startScreen");
-  const gameScreen = document.getElementById("gameScreen");
-  const resultScreen = document.getElementById("resultScreen");
-
-  window.createRoom = async function createRoom() {
-    roomId = Math.random().toString(36).substring(2, 7).toUpperCase();
-
-    await set(ref(db, `rooms/${roomId}`), {
-      started: false,
-      players: {},
-      host: true
-    });
-
-    isHost = true;
-
-    alert(`Mã phòng: ${roomId}`);
-  }
-
-  window.joinRoom = async function joinRoom() {
-    roomId = document.getElementById("roomCode").value;
-
-    if (!roomId) {
-      alert("Nhập mã phòng!");
-      return;
-    }
-
-    const snapshot = await get(ref(db, `rooms/${roomId}`));
-
-    if (!snapshot.exists()) {
-      alert("Phòng không tồn tại 😭");
-      return;
-    }
-
-    alert("Vào phòng thành công 🚀");
-  }
-
-  function startGame() {
-    const input = document.getElementById("playerName");
-
-    if (!input.value.trim()) {
-      alert("Nhập tên đi 😭");
-      return;
-    }
-
-    playerName = input.value;
-
-    if (!roomId) {
-      alert("Tạo hoặc vào phòng trước!");
-      return;
-    }
-
-    const playerId = Math.random().toString(36).substring(2, 9);
-
-    set(ref(db, `rooms/${roomId}/players/${playerId}`), {
-      name: playerName,
-      score: 0,
-      distance: 20
-    });
-
-    onValue(ref(db, `rooms/${roomId}/started`), (snapshot) => {
-      const started = snapshot.val();
-
-      if (started === true) {
-        if (isHost) {
-      update(ref(db, `rooms/${roomId}`), {
-        started: true
-      });
-    }
-      }
-    });
-
-    document.getElementById("playerLabel").textContent = playerName;
-
-    startScreen.classList.add("hidden");
-    gameScreen.classList.remove("hidden");
-
-    currentQuestion = 0;
-    score = 0;
-
-    playerDistance = 20;
-    bot1Distance = 20;
-    bot2Distance = 20;
-
-    updateShips();
-    loadQuestion();
-  }
-
-  function loadQuestion() {
-    clearInterval(countdown);
-
-    timer = 15;
-    document.getElementById("timer").textContent = timer;
-
-    countdown = setInterval(() => {
-      timer--;
-      document.getElementById("timer").textContent = timer;
-
-      if (timer <= 0) {
-        clearInterval(countdown);
-        simulateBots();
-        nextQuestion();
-      }
-    }, 1000);
-
-    const q = quiz[currentQuestion];
-
-    document.getElementById("questionNumber").textContent =
-      `Câu ${currentQuestion + 1}/${quiz.length}`;
-
-    document.getElementById("scoreText").textContent =
-      `Điểm: ${score}`;
-
-    document.getElementById("questionText").textContent = q.question;
-
-    const answersDiv = document.getElementById("answers");
-    answersDiv.innerHTML = "";
-
-    q.answers.forEach((answer, index) => {
-      const button = document.createElement("button");
-
-      button.className =
-        "bg-white/10 hover:bg-blue-500 transition p-5 rounded-2xl text-lg font-bold";
-
-      button.textContent = answer;
-
-      button.onclick = () => checkAnswer(index);
-
-      answersDiv.appendChild(button);
-    });
-  }
-
-  function checkAnswer(index) {
-    clearInterval(countdown);
-
-    const correct = quiz[currentQuestion].correct;
-
-    if (index === correct) {
-      score += 10;
-      playerDistance += 120;
-      document.getElementById("correctSound").play();
-    } else {
-      playerDistance += 40;
-      document.getElementById("wrongSound").play();
-    }
-
-    simulateBots();
-
-    showRaceAnimation();
-  }
-
-  function showRaceAnimation() {
-    const panel = document.getElementById("questionPanel");
-    const race = document.getElementById("raceScene");
-
-    panel.style.transform = "scale(0.75) translateY(-40px)";
-    panel.style.opacity = "0";
-
-    race.style.transform = "scale(1.08)";
-    race.style.transition = "all 0.8s ease";
-
-    document.getElementById("moveSound").play();
-
-    updateShips();
-
-    setTimeout(() => {
-      race.style.transform = "scale(1)";
-
-      panel.style.transform = "scale(1) translateY(0px)";
-      panel.style.opacity = "1";
-
-      nextQuestion();
-    }, 2200);
-  }
-
-  function simulateBots() {
-    bot1Distance += Math.floor(Math.random() * 100 + 50);
-    bot2Distance += Math.floor(Math.random() * 100 + 50);
-
-    updateShips();
-  }
-
-  function updateShips() {
-    document.getElementById("playerShip").style.left = `${playerDistance}px`;
-    document.getElementById("bot1").style.left = `${bot1Distance}px`;
-    document.getElementById("bot2").style.left = `${bot2Distance}px`;
-  }
-
-  function nextQuestion() {
-    currentQuestion++;
-
-    if (currentQuestion >= quiz.length) {
-      endGame();
-    } else {
-      loadQuestion();
-    }
-  }
-
-  function endGame() {
-    gameScreen.classList.add("hidden");
-    resultScreen.classList.remove("hidden");
-
-    const distances = [
-      { name: playerName, dist: playerDistance },
-      { name: "Bot Alpha", dist: bot1Distance },
-      { name: "Bot Omega", dist: bot2Distance }
+<header><nav class="nav"><a class="brand" href="#top"><span class="logo">&lt;/&gt;</span>AI Research Hub</a>
+<div class="links"><a href="#tongquan">Tổng quan</a><a href="#phuongphap">Phương pháp</a><a href="#ketqua">Kết quả</a><a href="#loiich">Lợi ích</a><a href="#ketluan">Kết luận</a></div>
+<button class="menu" onclick="toggleMenu()">☰</button></nav></header>
+
+<section class="hero" id="top"><div class="heroIn">
+<div class="k">NGHIÊN CỨU · CNTT · GIÁO DỤC ĐẠI HỌC</div>
+<h1>Ứng dụng Generative AI trong hỗ trợ học lập trình của sinh viên Công nghệ thông tin</h1>
+<p>Website trực quan hóa nghiên cứu tổng quan tài liệu về ChatGPT, GitHub Copilot và các mô hình AI tạo sinh trong giáo dục lập trình.</p>
+<div class="pills"><span class="pill">Generative AI</span><span class="pill">ChatGPT</span><span class="pill">GitHub Copilot</span><span class="pill">Programming Education</span><span class="pill">Literature Review</span></div>
+</div></section>
+
+<main class="wrap"><div class="layout"><aside class="toc"><b>📑 NỘI DUNG</b>
+<a href="#tongquan">1. Tổng quan</a><a href="#muctieu">2. Mục tiêu</a><a href="#phuongphap">3. Phương pháp</a><a href="#ketqua">4. Kết quả</a><a href="#loiich">5. Lợi ích & hạn chế</a><a href="#dinhhuong">6. Định hướng</a><a href="#ketluan">7. Kết luận</a><a href="#thamkhao">8. Tài liệu tham khảo</a></aside><div>
+
+<section id="tongquan"><h2 class="title">1. Tổng quan nghiên cứu</h2>
+<p class="lead">Nghiên cứu đánh giá thực trạng và hiệu quả của Generative AI trong hỗ trợ học lập trình ở bậc đại học. Theo tài liệu nguồn, ChatGPT và GitHub Copilot có khả năng sinh mã nguồn, giải thích thuật toán và phản hồi lỗi, đồng thời mở ra cơ hội cá nhân hóa học tập.</p>
+<div class="grid"><div class="card"><div class="num">05</div><h3>Nghiên cứu được phân tích</h3><p>Năm công trình tiêu biểu được lựa chọn để phân tích chuyên sâu.</p></div><div class="card"><div class="num">2023–2024</div><h3>Giai đoạn trọng tâm</h3><p>Bài báo tập trung vào các nghiên cứu thực nghiệm trong giai đoạn này.</p></div><div class="card"><div class="num">3+</div><h3>Công cụ AI được đề cập</h3><p>ChatGPT, GitHub Copilot và OpenAI Codex.</p></div></div>
+<div class="callout"><b>Luận điểm chính:</b> Generative AI là công cụ hỗ trợ mạnh mẽ cho giáo dục lập trình nhưng cần được sử dụng có định hướng để hạn chế sự phụ thuộc, sai lệch thông tin và vi phạm đạo đức học thuật.</div></section>
+
+<section id="muctieu"><h2 class="title">2. Mục tiêu nghiên cứu</h2><p>Nghiên cứu nhằm tổng quan các nghiên cứu thực nghiệm tiêu biểu, phân tích đa chiều lợi ích và hạn chế của Generative AI, từ đó cung cấp cơ sở để sinh viên và giảng viên CNTT khai thác AI như một công cụ hỗ trợ bền vững trong môi trường học thuật.</p></section>
+
+<section id="phuongphap"><h2 class="title">3. Phương pháp nghiên cứu</h2><p>Phương pháp sử dụng là <b>Tổng quan tài liệu (Literature Review)</b>. Quy trình tìm kiếm được thực hiện trên Google Scholar, ACM Digital Library, Springer, Elsevier và Frontiers.</p>
+<div class="flow"><div><b>01</b>Tìm kiếm</div><div><b>02</b>Sàng lọc</div><div><b>03</b>Phân tích</div><div><b>04</b>So sánh</div><div><b>05</b>Tổng hợp</div></div>
+<div class="table"><table><tr><th>Tiêu chí</th><th>Nội dung theo bài báo</th></tr><tr><td>Thời gian</td><td>Từ năm 2023 đến nay tại thời điểm nghiên cứu.</td></tr><tr><td>Nội dung</td><td>Ứng dụng Generative AI trong hỗ trợ học lập trình cho sinh viên đại học.</td></tr><tr><td>Uy tín học thuật</td><td>Công bố bởi các nhà xuất bản/cơ sở dữ liệu khoa học uy tín.</td></tr><tr><td>Kết quả</td><td>05 bài báo được chọn để phân tích mục tiêu, phương pháp thực nghiệm và kết luận chính.</td></tr></table></div></section>
+
+<section id="ketqua"><h2 class="title">4. Kết quả tổng hợp</h2><p>Website trình bày lại bảng tổng hợp nghiên cứu trong bài báo theo dạng dễ đọc và so sánh.</p>
+<div class="table"><table><thead><tr><th>Tác giả</th><th>Nội dung / công cụ</th><th>Kết quả chính</th></tr></thead><tbody>
+<tr><td><b>Bringula (2024)</b></td><td>ChatGPT trong giảng dạy lập trình</td><td>Hỗ trợ sinh mã, giải thuật và gỡ lỗi; hỗ trợ giảng viên thiết kế bài tập và câu hỏi đánh giá.</td></tr>
+<tr><td><b>Cambaz & Zhang (2024)</b></td><td>AI sinh mã nguồn</td><td>AI đóng vai trò trợ giảng ảo, giúp giải thích logic và nâng cao hiệu suất hoàn thành bài tập.</td></tr>
+<tr><td><b>Albadarin et al. (2024)</b></td><td>ChatGPT trong giáo dục</td><td>Tăng cường năng lực tự học và cá nhân hóa lộ trình, nhưng cần kiểm soát độ chính xác.</td></tr>
+<tr><td><b>Chang et al. (2024)</b></td><td>ChatGPT, Copilot, Codex</td><td>Hỗ trợ phát triển kỹ năng lập trình chuyên sâu thông qua ví dụ minh họa.</td></tr>
+<tr><td><b>Baig et al. (2024)</b></td><td>AI trong giáo dục đại học</td><td>Cải thiện tương tác với học liệu; đặt ra thách thức về đạo đức học thuật và bảo mật dữ liệu.</td></tr>
+</tbody></table></div></section>
+
+<section id="loiich"><h2 class="title">5. Lợi ích và hạn chế</h2><div class="grid">
+<div class="card"><span class="badge good">LỢI ÍCH</span><h3>⚡ Tối ưu hóa quy trình</h3><p>Rút ngắn thời gian viết mã lặp lại và cung cấp phản hồi tức thời về lỗi logic.</p></div>
+<div class="card"><span class="badge good">LỢI ÍCH</span><h3>🧠 Giải thích & trực quan hóa</h3><p>Hỗ trợ phân tích thuật toán và vận dụng lý thuyết vào thực hành theo trình độ người học.</p></div>
+<div class="card"><span class="badge good">LỢI ÍCH</span><h3>🎯 Cá nhân hóa</h3><p>AI có thể đóng vai trò như gia sư đồng hành, hỗ trợ người học tự điều chỉnh lộ trình.</p></div>
+<div class="card"><span class="badge bad">HẠN CHẾ</span><h3>⚠️ Phụ thuộc & suy giảm tư duy</h3><p>Lạm dụng AI có thể khiến sinh viên bỏ qua các bước phân tích logic quan trọng.</p></div>
+<div class="card"><span class="badge bad">HẠN CHẾ</span><h3>🔐 Đạo đức & trung thực</h3><p>Đặt ra vấn đề về bản quyền mã nguồn, minh bạch trong kiểm tra và đánh giá.</p></div>
+<div class="card"><span class="badge bad">HẠN CHẾ</span><h3>📡 Khoảng cách số</h3><p>Chênh lệch khả năng tiếp cận công cụ AI cao cấp có thể tạo khác biệt giữa các nhóm sinh viên.</p></div>
+</div></section>
+
+<section><h2 class="title">6. Phân tích theo góc độ giáo dục</h2><p>Theo bài báo, Generative AI được liên hệ với các trụ cột giáo dục UNESCO và thang đo tư duy Bloom. AI có thể hỗ trợ mạnh ở “Học để biết” và “Học để làm”, nhưng vai trò của giảng viên vẫn then chốt đối với “Học để cùng chung sống” và “Học để làm người”.</p>
+<div class="callout warn"><b>Điểm cần lưu ý:</b> AI không nên được xem là sự thay thế hoàn toàn cho giảng viên. Vai trò sư phạm, tư duy đạo đức và phát triển phẩm chất người học vẫn cần sự định hướng của con người.</div></section>
+
+<section id="dinhhuong"><h2 class="title">7. Định hướng sử dụng</h2><div class="grid">
+<div class="card"><h3>01 · Khung sử dụng minh bạch</h3><p>Xác định rõ ranh giới giữa hỗ trợ học tập và vi phạm đạo đức học thuật.</p></div>
+<div class="card"><h3>02 · Đổi mới đánh giá</h3><p>Tập trung vào tư duy giải quyết vấn đề và quy trình thực hiện, không chỉ mã nguồn cuối cùng.</p></div>
+<div class="card"><h3>03 · Nâng cao năng lực số</h3><p>Giúp giảng viên và sinh viên khai thác AI như một “đồng tác giả” nhưng vẫn duy trì tư duy phản biện.</p></div>
+</div></section>
+
+<section id="ketluan"><h2 class="title">8. Kết luận</h2><p class="lead">Generative AI đã trở thành công cụ hỗ trợ mạnh mẽ trong giáo dục lập trình, góp phần nâng cao hiệu quả giải quyết vấn đề và cá nhân hóa quá trình tiếp nhận tri thức. Tuy nhiên, việc sử dụng cần có định hướng để tránh sự thụ động và suy giảm tư duy lập trình chuyên sâu.</p>
+<div class="callout"><b>Thông điệp nghiên cứu:</b> Khai thác AI để hỗ trợ học tập, nhưng phải kiểm chứng thông tin, duy trì tư duy phản biện và bảo đảm trung thực học thuật.</div></section>
+
+<section id="thamkhao"><h2 class="title">9. Tài liệu tham khảo</h2><div class="search"><input id="q" placeholder="Tìm theo tác giả hoặc từ khóa..." oninput="filterRefs()"><button onclick="clearSearch()">Xóa</button></div><div id="refs">
+<div class="ref">Albadarin, Y., et al. (2024). <i>A Systematic Literature Review of Empirical Research on ChatGPT in Education.</i> Springer.</div>
+<div class="ref">Baig, M. I., et al. (2024). <i>ChatGPT in Higher Education: A Systematic Literature Review and Research Challenges.</i> Computers & Education: Artificial Intelligence. Elsevier.</div>
+<div class="ref">Bringula, R. (2024). <i>ChatGPT in a Programming Course: Benefits and Limitations.</i> Frontiers in Education.</div>
+<div class="ref">Cambaz, D., & Zhang, X. (2024). <i>Use of AI-driven Code Generation Models in Teaching and Learning Programming: A Systematic Literature Review.</i> Proceedings of SIGCSE TS 2024. ACM.</div>
+<div class="ref">Chang, C.-I., et al. (2024). <i>A Systematic Literature Review of the Practical Applications of AIGC Using OpenAI ChatGPT, Copilot, and Codex in Programming Education.</i> ACM Digital Library.</div>
+<div class="ref">Lê Anh Vinh, & Trần Mỹ Ngọc. (2024). <i>Tác động của Trí tuệ nhân tạo (AI) đối với hệ thống giáo dục toàn cầu và giáo dục Việt Nam.</i> Tạp chí Khoa học Giáo dục Việt Nam, 20(5), 1–11.</div>
+</div></section>
+</div></div></main>
+<footer><div><strong>AI Research Hub</strong><br>Website trực quan hóa nội dung nghiên cứu về ứng dụng Generative AI trong hỗ trợ học lập trình của sinh viên CNTT.<br><small>Nội dung được xây dựng theo tài liệu PDF được cung cấp.</small></div></footer>
+
+<script>
+// SCRIPT KÍCH HOẠT HIỆU ỨNG SÁCH & BẮN CODE, CHIP
+function triggerBookEffect() {
+    const bookBox = document.getElementById('bookBox');
+    const overlay = document.getElementById('book-overlay');
+    
+    // Mảng chứa các đoạn code, tên chip, công nghệ bắn ra
+    const items = [
+        "💻 const ai = true;", 
+        "⚡ NPU Chip M4", 
+        "🧠 Neural Network", 
+        "⚙️ GPU Core RTX", 
+        "🔍 GitHub Copilot", 
+        "🚀 import generative_ai", 
+        "📦 RAM 64GB DDR5", 
+        "💡 function optimizeCode()", 
+        "🔌 Transistor 3nm", 
+        "🌐 OpenAI API", 
+        "📊 System.out.println('AI')", 
+        "⚡ Quantum Processor"
     ];
 
-    distances.sort((a, b) => b.dist - a.dist);
+    // Tạo các phần tử code/chip bay ra xung quanh
+    items.forEach((text, index) => {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.innerText = text;
+        
+        // Màu sắc ngẫu nhiên cho công nghệ/code (Xanh dương, xanh lá, cam, trắng)
+        const colors = ['#60a5fa', '#34d399', '#f472b6', '#fbbf24', '#ffffff'];
+        particle.style.color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Vị trí xuất phát từ tâm màn hình
+        particle.style.left = '50%';
+        particle.style.top = '50%';
+        
+        overlay.appendChild(particle);
 
-    if (distances[0].name === playerName) {
-      document.getElementById("winnerText").textContent =
-        `${playerName} đã chiến thắng cuộc đua! 🚀`;
-    } else {
-      document.getElementById("winnerText").textContent =
-        `${distances[0].name} đã về nhất 😭`;
-    }
-  }
+        // Tính toán góc bắn ngẫu nhiên theo hình tròn
+        const angle = (index / items.length) * 2 * Math.PI;
+        const distance = 180 + Math.random() * 220; // Khoảng cách bay ra
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        const rot = (Math.random() - 0.5) * 60; // Xoay nhẹ góc
 
-  function restartGame() {
-    resultScreen.classList.add("hidden");
-    startScreen.classList.remove("hidden");
-  }
+        // Kích hoạt animation sau một khoảng khắc ngắn
+        setTimeout(() => {
+            particle.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(1.2)`;
+            particle.style.opacity = '1';
+        }, 30);
+
+        // Mờ dần sau khi bay ra
+        setTimeout(() => {
+            particle.style.opacity = '0';
+        }, 700);
+    });
+
+    // Phóng to cuốn sách và ẩn màn hình chờ
+    bookBox.classList.add('open');
+    setTimeout(() => {
+        overlay.classList.add('hidden');
+    }, 600);
+}
+
+// Các hàm chức năng sẵn có của trang web
+function filterRefs(){const q=document.getElementById('q').value.trim().toLowerCase();document.querySelectorAll('.ref').forEach(x=>x.style.display=x.textContent.toLowerCase().includes(q)?'block':'none')}
+function clearSearch(){document.getElementById('q').value='';filterRefs()}
+function toggleMenu(){const n=document.querySelector('.links');n.style.display=n.style.display==='flex'?'none':'flex';n.style.position='absolute';n.style.top='68px';n.style.right='20px';n.style.flexDirection='column';n.style.background='#fff';n.style.padding='14px';n.style.border='1px solid #e2e8f0';n.style.borderRadius='12px'}
 </script>
-</body>
-</html>
+</body></html>
