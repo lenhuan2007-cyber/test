@@ -1,151 +1,930 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio & Toolset - Sư Phạm Tin Học</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Coding Tutor & Cổng Nghiên Cứu - ĐH Đồng Tháp</title>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --primary-light: #3b82f6;
+      --primary-bg: #eff6ff;
+      --secondary: #0f766e;
+      --accent: #d97706;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+      color: white;
+      padding: 2rem 1.5rem 1.5rem;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .badge-uni {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.3px;
+      margin-bottom: 0.75rem;
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    header p.subtitle {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      max-width: 820px;
+    }
+
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: #93c5fd;
+    }
+
+    nav.tabs {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .tab-list {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.75rem 1.5rem;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      background: var(--primary-bg);
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    main {
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.35rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.6rem;
+      color: #0f172a;
+    }
+
+    .timeline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .timeline-item {
+      flex: 1 1 220px;
+      background: white;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 10px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .timeline-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .timeline-year {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .filter-bar input, .filter-bar select {
+      padding: 0.55rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: white;
+    }
+
+    .filter-bar input {
+      flex: 1 1 240px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    th, td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .tag-blue { background: #dbeafe; color: #1e40af; }
+    .tag-green { background: #dcfce7; color: #166534; }
+    .tag-amber { background: #fef3c7; color: #92400e; }
+    .tag-red { background: #fee2e2; color: #991b1b; }
+
+    /* UNESCO & Bloom */
+    .pillar-card {
+      border-top: 4px solid var(--secondary);
+      transition: all 0.2s;
+    }
+
+    .pillar-card.human-core {
+      border-top-color: var(--accent);
+    }
+
+    .bloom-pyramid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-width: 680px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .bloom-level {
+      padding: 0.85rem 1.2rem;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .bloom-level:hover {
+      transform: scale(1.01);
+    }
+
+    /* Tutor Sandbox */
+    .tutor-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 840px) {
+      .tutor-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .mode-switch {
+      display: flex;
+      gap: 0.5rem;
+      background: #e2e8f0;
+      padding: 0.3rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .mode-btn {
+      flex: 1;
+      border: none;
+      padding: 0.55rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      background: transparent;
+      color: #475569;
+    }
+
+    .mode-btn.active-socratic {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .mode-btn.active-passive {
+      background: var(--danger);
+      color: white;
+    }
+
+    textarea.code-box {
+      width: 100%;
+      min-height: 190px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.88rem;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      resize: vertical;
+      margin-bottom: 0.85rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.15rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-secondary { background: #e2e8f0; color: #1e293b; }
+    .btn-secondary:hover { background: #cbd5e1; }
+    .btn-success { background: var(--secondary); color: white; }
+
+    .chat-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      min-height: 280px;
+      max-height: 420px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .msg {
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+    }
+
+    .msg-ai {
+      background: white;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--secondary);
+    }
+
+    .msg-warn {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-left: 4px solid var(--danger);
+    }
+
+    .autonomy-meter {
+      margin-top: 1rem;
+      padding: 0.85rem;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .meter-bar {
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 0.4rem 0;
+    }
+
+    .meter-fill {
+      height: 100%;
+      width: 85%;
+      background: var(--secondary);
+      transition: width 0.3s, background 0.3s;
+    }
+
+    /* Quiz & Prompts */
+    .quiz-q {
+      margin-bottom: 1.15rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin-top: 0.5rem;
+    }
+
+    .quiz-options label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .prompt-card {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 0.85rem;
+      margin-bottom: 0.85rem;
+      position: relative;
+    }
+
+    .prompt-text {
+      font-family: 'Consolas', monospace;
+      font-size: 0.84rem;
+      color: #0f172a;
+      margin-top: 0.35rem;
+      display: block;
+    }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans">
+<body>
 
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-blue-600">SP TIN HỌC PORTFOLIO</h1>
-            <nav class="space-x-6 hidden md:block">
-                <a href="#about" class="hover:text-blue-600 transition">Giới thiệu</a>
-                <a href="#tools" class="hover:text-blue-600 transition">Công cụ Dạy học</a>
-                <a href="#resources" class="hover:text-blue-600 transition">Tài liệu</a>
-            </nav>
-        </div>
-    </header>
+  <header>
+    <div class="container">
+      <div class="badge-uni">Khoa Sư phạm Toán - Tin • Trường Đại học Đồng Tháp</div>
+      <h1>Ứng dụng Generative AI trong hỗ trợ học lập trình của sinh viên CNTT</h1>
+      <p class="subtitle">Nền tảng trình bày tương tác tổng quan nghiên cứu khoa học & Mô hình Trợ giảng ảo Socratic định hướng sử dụng AI có kiểm soát.</p>
+      <div class="meta-bar">
+        <span>Tác giả: Nhóm Nghiên cứu AI</span>
+        <span>Phương pháp: Tổng quan tài liệu (2023–2024)</span>
+        <span>Khung lý thuyết: Trụ cột UNESCO & Thang đo Bloom</span>
+      </div>
+    </div>
+  </header>
 
-    <section id="about" class="max-w-6xl mx-auto px-4 py-16 text-center md:text-left md:flex items-center justify-between">
-        <div class="md:w-1/2 space-y-4">
-            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Giáo viên Tin học tương lai</span>
-            <h2 class="text-4xl font-extrabold text-slate-900 leading-tight">Ứng dụng Công nghệ vào Giảng dạy Tin học</h2>
-            <p class="text-slate-600">Chào bạn! Đây là trang cá nhân chia sẻ tài liệu giảng dạy GDPT 2018 và các công cụ mô phỏng thuật toán trực quan dành cho học sinh.</p>
-            <div class="pt-2">
-                <a href="#tools" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition">Khám phá công cụ</a>
-            </div>
+  <nav class="tabs">
+    <div class="tab-list">
+      <button class="tab-btn active" onclick="switchTab('overview', this)">1. Tổng quan Bài báo</button>
+      <button class="tab-btn" onclick="switchTab('framework', this)">2. Khung UNESCO & Bloom</button>
+      <button class="tab-btn" onclick="switchTab('tutor', this)">3. Trợ giảng AI (Demo)</button>
+      <button class="tab-btn" onclick="switchTab('ethics', this)">4. Quy tắc & Tự đánh giá</button>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- TAB 1: TỔNG QUAN BÀI BÁO -->
+    <section id="overview" class="tab-panel active">
+      <h2 class="section-title">Cột mốc phát triển AI trong Giáo dục & Lập trình</h2>
+      <p class="section-desc">Từ hệ thống dựa trên quy tắc truyền thống đến mô hình ngôn ngữ lớn đạt cấp độ "Sáng tạo".</p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">Năm 1997</div>
+          <h3>Deep Blue</h3>
+          <p style="font-size:0.88rem; color:var(--muted);">Siêu máy tính đánh bại kỳ thủ cờ vua thế giới — cột mốc AI tính toán dựa trên luật và tìm kiếm.</p>
         </div>
-        <div class="md:w-1/3 mt-8 md:mt-0 flex justify-center">
-            <div class="w-48 h-48 bg-blue-500 rounded-full flex items-center justify-center text-white text-5xl font-bold shadow-lg">
-                IT
-            </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2023 – Nay</div>
+          <h3>ChatGPT, Copilot & Codex</h3>
+          <p style="font-size:0.88rem; color:var(--muted);">Bùng nổ LLMs: Sinh mã tự động, gỡ lỗi tức thì và đóng vai trò "trợ giảng ảo" qua ngôn ngữ tự nhiên.</p>
         </div>
+        <div class="timeline-item">
+          <div class="timeline-year">Năm 2024</div>
+          <h3>AlphaGeometry</h3>
+          <p style="font-size:0.88rem; color:var(--muted);">Khả năng giải toán Olympic quốc tế, khẳng định AI tiến tới cấp độ suy luận và sáng tạo bậc cao.</p>
+        </div>
+      </div>
+
+      <h2 class="section-title">Tổng hợp 05 Nghiên cứu thực nghiệm tiêu biểu</h2>
+      <p class="section-desc">Sàng lọc từ Google Scholar, ACM Digital Library, Springer, Elsevier và Frontiers (2023–2024).</p>
+
+      <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="Tìm theo tên tác giả, công cụ (ChatGPT, Copilot) hoặc nội dung..." onkeyup="filterStudies()" />
+        <select id="focusFilter" onchange="filterStudies()">
+          <option value="all">Tất cả trọng tâm</option>
+          <option value="debug">Sinh mã & Gỡ lỗi</option>
+          <option value="personal">Cá nhân hóa học tập</option>
+          <option value="ethics">Đạo đức & Kiểm soát</option>
+        </select>
+      </div>
+
+      <table id="studiesTable">
+        <thead>
+          <tr>
+            <th>Tác giả (Năm)</th>
+            <th>Nội dung / Công cụ</th>
+            <th>Kết quả chính</th>
+            <th>Nhóm tác động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-category="debug">
+            <td><strong>Bringula (2024)</strong></td>
+            <td>ChatGPT trong giảng dạy lập trình</td>
+            <td>Hỗ trợ sinh mã, giải thuật và gỡ lỗi; giúp giảng viên thiết kế bài tập, nhưng cần kiểm chứng sai số.</td>
+            <td><span class="tag tag-blue">Sinh mã & Gỡ lỗi</span></td>
+          </tr>
+          <tr data-category="debug">
+            <td><strong>Cambaz & Zhang (2024)</strong></td>
+            <td>AI sinh mã nguồn (21 nghiên cứu)</td>
+            <td>Đóng vai trò trợ giảng ảo, giải thích logic cấu trúc thuật toán phức tạp, tăng hiệu suất làm bài.</td>
+            <td><span class="tag tag-blue">Trợ giảng ảo</span></td>
+          </tr>
+          <tr data-category="personal">
+            <td><strong>Albadarin et al. (2024)</strong></td>
+            <td>Thực nghiệm ChatGPT trong giáo dục</td>
+            <td>Tăng năng lực tự học và cá nhân hóa lộ trình, cảnh báo nguy cơ suy giảm tư duy độc lập.</td>
+            <td><span class="tag tag-green">Cá nhân hóa</span></td>
+          </tr>
+          <tr data-category="personal">
+            <td><strong>Chang et al. (2024)</strong></td>
+            <td>Ứng dụng ChatGPT, Copilot, Codex</td>
+            <td>Phát triển kỹ năng lập trình chuyên sâu thông qua các ví dụ minh họa trực quan theo trình độ.</td>
+            <td><span class="tag tag-green">Trực quan hóa</span></td>
+          </tr>
+          <tr data-category="ethics">
+            <td><strong>Baig et al. (2024)</strong></td>
+            <td>AI trong giáo dục đại học</td>
+            <td>Cải thiện tương tác với học liệu; đặt ra thách thức lớn về đạo đức học thuật và bảo mật dữ liệu.</td>
+            <td><span class="tag tag-amber">Đạo đức & Bảo mật</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid-2">
+        <div class="card" style="border-left: 4px solid var(--secondary);">
+          <h3>Lợi ích vượt trội</h3>
+          <ul style="padding-left:1.2rem; font-size:0.92rem; color:#334155;">
+            <li><strong>Tối ưu hóa quy trình:</strong> Rút ngắn thời gian viết mã lặp lại, phản hồi lỗi logic tức thì.</li>
+            <li><strong>Giải thích trực quan:</strong> Bóc tách thuật toán phức tạp phù hợp trình độ từng sinh viên.</li>
+            <li><strong>Cá nhân hóa 24/7:</strong> Thúc đẩy thói quen tự học suốt đời và chủ động điều chỉnh lộ trình.</li>
+          </ul>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--danger);">
+          <h3>Thách thức & Rủi ro</h3>
+          <ul style="padding-left:1.2rem; font-size:0.92rem; color:#334155;">
+            <li><strong>Suy giảm tư duy phản biện:</strong> Lạm dụng AI ở bài cơ bản khiến sinh viên bỏ qua bước phân tích logic.</li>
+            <li><strong>Đạo đức học thuật:</strong> Mập mờ bản quyền mã nguồn, khó đảm bảo công bằng trong kiểm tra.</li>
+            <li><strong>Khoảng cách số:</strong> Chênh lệch khả năng tiếp cận các công cụ AI cao cấp giữa các nhóm sinh viên.</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <section id="tools" class="bg-white py-12 border-t border-b border-slate-200">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="text-center mb-8">
-                <h3 class="text-2xl font-bold text-slate-900">Trình mô phỏng Thuật toán Nổi bọt (Bubble Sort)</h3>
-                <p class="text-slate-500 text-sm mt-1">Công cụ hỗ trợ giáo viên minh họa thuật toán trực quan cho học sinh</p>
-            </div>
+    <!-- TAB 2: KHUNG UNESCO & BLOOM -->
+    <section id="framework" class="tab-panel">
+      <h2 class="section-title">Đối chiếu 4 Trụ cột Giáo dục UNESCO (Lê Anh Vinh & Trần Mỹ Ngọc, 2024)</h2>
+      <p class="section-desc">Phân định ranh giới giữa khả năng hỗ trợ của Generative AI và vai trò không thể thay thế của Giảng viên.</p>
 
-            <div class="bg-slate-900 text-white p-6 rounded-xl max-w-2xl mx-auto shadow-xl">
-                <div id="array-container" class="h-48 flex items-end justify-center gap-2 mb-6 pt-4 px-4 border-b border-slate-700">
-                    </div>
-
-                <div class="flex flex-wrap justify-center gap-4">
-                    <button onclick="generateArray()" class="bg-slate-700 hover:bg-slate-600 text-white text-sm px-4 py-2 rounded-lg transition">Tạo mảng mới</button>
-                    <button onclick="startBubbleSort()" id="sort-btn" class="bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold px-5 py-2 rounded-lg transition">Chạy mô phỏng</button>
-                </div>
-            </div>
+      <div class="grid-2">
+        <div class="card pillar-card">
+          <span class="tag tag-green" style="margin-bottom:0.5rem;">AI hỗ trợ hiệu quả</span>
+          <h3>1. Học để biết (Learning to Know)</h3>
+          <p style="font-size:0.9rem; color:var(--muted);">AI giúp sinh viên tra cứu nhanh khái niệm, cú pháp ngôn ngữ lập trình và tiếp cận tri thức mọi lúc mọi nơi.</p>
         </div>
+        <div class="card pillar-card">
+          <span class="tag tag-green" style="margin-bottom:0.5rem;">AI hỗ trợ hiệu quả</span>
+          <h3>2. Học để làm (Learning to Do)</h3>
+          <p style="font-size:0.9rem; color:var(--muted);">AI gợi ý cấu trúc mã nguồn, hỗ trợ gỡ lỗi (debugging) và chuyển hóa lý thuyết thuật toán thành chương trình chạy thực tế.</p>
+        </div>
+        <div class="card pillar-card human-core">
+          <span class="tag tag-amber" style="margin-bottom:0.5rem;">Giảng viên giữ vai trò then chốt</span>
+          <h3>3. Học để cùng chung sống (Learning to Live Together)</h3>
+          <p style="font-size:0.9rem; color:var(--muted);">Kỹ năng làm việc nhóm trong dự án phần mềm, giao tiếp, thấu cảm và hợp tác giải quyết xung đột — AI không thể thay thế.</p>
+        </div>
+        <div class="card pillar-card human-core">
+          <span class="tag tag-amber" style="margin-bottom:0.5rem;">Giảng viên giữ vai trò then chốt</span>
+          <h3>4. Học để làm người (Learning to Be)</h3>
+          <p style="font-size:0.9rem; color:var(--muted);">Hình thành phẩm chất nghề nghiệp, đạo đức công nghệ, tính trung thực học thuật và bản lĩnh tư duy độc lập.</p>
+        </div>
+      </div>
+
+      <h2 class="section-title">Thang đo Tư duy Bloom trong Kỷ nguyên LLMs</h2>
+      <p class="section-desc">Nhấn vào từng cấp độ để xem sự dịch chuyển vai trò giữa AI và Sinh viên CNTT.</p>
+
+      <div class="bloom-pyramid">
+        <div class="bloom-level" style="background:#1e3a8a;" onclick="showBloomInfo('Sáng tạo (Create)', 'LLMs đã chạm tới cấp độ này khi tự sinh mã mới. Tuy nhiên, sinh viên cần làm chủ việc kiến trúc hệ thống và kiểm chứng tính đúng đắn thay vì sao chép thụ động.')">
+          <span>6. Sáng tạo (Create)</span>
+          <span style="font-size:0.8rem; opacity:0.9;">Cấp độ LLMs đạt tới • Cần kiểm soát</span>
+        </div>
+        <div class="bloom-level" style="background:#1d4ed8;" onclick="showBloomInfo('Đánh giá (Evaluate)', 'Năng lực cốt lõi sinh viên cần rèn luyện: Phản biện mã do AI sinh ra, phát hiện lỗ hổng bảo mật, sai số logic và tối ưu độ phức tạp.')">
+          <span>5. Đánh giá (Evaluate)</span>
+          <span style="font-size:0.8rem; opacity:0.9;">Trọng tâm rèn luyện tư duy phản biện</span>
+        </div>
+        <div class="bloom-level" style="background:#2563eb;" onclick="showBloomInfo('Phân tích (Analyze)', 'Sinh viên dùng AI để bóc tách luồng dữ liệu, so sánh các thuật toán sắp xếp/tìm kiếm trước khi quyết định giải pháp.')">
+          <span>4. Phân tích (Analyze)</span>
+          <span style="font-size:0.8rem; opacity:0.9;">AI hỗ trợ trực quan hóa</span>
+        </div>
+        <div class="bloom-level" style="background:#0f766e;" onclick="showBloomInfo('Vận dụng (Apply)', 'Áp dụng kiến thức vào bài tập thực hành. Khuyến khích dùng AI theo chế độ gợi ý từng bước thay vì giải hộ.')">
+          <span>3. Vận dụng (Apply)</span>
+          <span style="font-size:0.8rem; opacity:0.9;">Thực hành có định hướng</span>
+        </div>
+        <div class="bloom-level" style="background:#0d9488;" onclick="showBloomInfo('Hiểu & Nhớ (Understand & Remember)', 'AI đóng vai trò từ điển sống giải thích cú pháp C/C++, Python, SQL tức thì theo ngôn ngữ tự nhiên.')">
+          <span>1 & 2. Nhớ & Hiểu (Remember & Understand)</span>
+          <span style="font-size:0.8rem; opacity:0.9;">AI tối ưu hóa tốc độ tiếp thu</span>
+        </div>
+      </div>
+
+      <div id="bloomDetail" class="card" style="max-width:680px; margin:0 auto; background:#eff6ff; border-color:#bfdbfe;">
+        <strong>Chi tiết cấp độ:</strong> Nhấn vào một tầng của tháp Bloom phía trên để xem phân tích sư phạm.
+      </div>
     </section>
 
-    <section id="resources" class="max-w-6xl mx-auto px-4 py-16">
-        <h3 class="text-2xl font-bold text-slate-900 text-center mb-8">Kho Bài giảng & Tài nguyên</h3>
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
-                <span class="text-xs font-bold text-blue-600 uppercase">Khối 10</span>
-                <h4 class="text-lg font-bold mt-2">Chủ đề F: Giải quyết vấn đề với máy tính</h4>
-                <p class="text-slate-500 text-sm mt-1">Tài liệu giới thiệu Python cơ bản và các thuật toán tìm kiếm, sắp xếp.</p>
-                <a href="#" class="inline-block mt-4 text-sm text-blue-600 font-semibold hover:underline">Tải giáo án (.docx) &rarr;</a>
-            </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
-                <span class="text-xs font-bold text-emerald-600 uppercase">Khối 11</span>
-                <h4 class="text-lg font-bold mt-2">Cơ sở dữ liệu & SQL</h4>
-                <p class="text-slate-500 text-sm mt-1">Bộ slide bài giảng trực quan về truy vấn dữ liệu câu lệnh SQL chuẩn.</p>
-                <a href="#" class="inline-block mt-4 text-sm text-blue-600 font-semibold hover:underline">Tải Bài giảng (.pptx) &rarr;</a>
-            </div>
-            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
-                <span class="text-xs font-bold text-purple-600 uppercase">THCS</span>
-                <h4 class="text-lg font-bold mt-2">Lập trình Scratch sáng tạo</h4>
-                <p class="text-slate-500 text-sm mt-1">Tổng hợp 15 bài tập dự án Scratch phát triển tư duy thuật toán.</p>
-                <a href="#" class="inline-block mt-4 text-sm text-blue-600 font-semibold hover:underline">Xem danh sách &rarr;</a>
-            </div>
-        </div>
-    </section>
+    <!-- TAB 3: TRỢ GIẢNG AI (DEMO) -->
+    <section id="tutor" class="tab-panel">
+      <h2 class="section-title">Mô phỏng Trợ giảng ảo Lập trình (Socratic AI Tutor)</h2>
+      <p class="section-desc">Minh họa giải pháp đề xuất của bài báo: Chuyển đổi AI từ công cụ "làm hộ" sang "đồng tác giả gợi mở tư duy".</p>
 
-    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800">
-        <div class="max-w-6xl mx-auto px-4 text-center text-sm">
-            <p>© 2026 Trang cá nhân Sinh viên Sư phạm Tin học. Phát triển cho mục đích giảng dạy.</p>
-        </div>
-    </footer>
+      <div class="tutor-layout">
+        <div class="card">
+          <div class="mode-switch">
+            <button id="btnSocratic" class="mode-btn active-socratic" onclick="setTutorMode('socratic')">Chế độ Socratic (Gợi ý có kiểm soát)</button>
+            <button id="btnPassive" class="mode-btn" onclick="setTutorMode('passive')">Chế độ Thụ động (Chép code mẫu)</button>
+          </div>
 
-    <script>
-        let array = [];
-        const container = document.getElementById('array-container');
+          <label style="font-size:0.88rem; font-weight:600; display:block; margin-bottom:0.4rem;">
+            Đoạn mã C++ của sinh viên (Tìm phần tử lớn nhất trong mảng — đang có lỗi logic):
+          </label>
+          <textarea id="studentCode" class="code-box">#include &lt;iostream&gt;
+using namespace std;
 
-        function generateArray() {
-            container.innerHTML = '';
-            array = [];
-            for (let i = 0; i < 8; i++) {
-                const val = Math.floor(Math.random() * 80) + 20;
-                array.push(val);
-                
-                const bar = document.createElement('div');
-                bar.classList.add('bg-blue-500', 'w-8', 'rounded-t', 'flex', 'items-center', 'justify-center', 'text-xs', 'font-bold', 'transition-all', 'duration-300');
-                bar.style.height = `${val * 2}px`;
-                bar.innerText = val;
-                bar.id = `bar-${i}`;
-                container.appendChild(bar);
-            }
+int timMax(int a[], int n) {
+    int maxVal = 0; // Lỗi tiềm ẩn khi mảng toàn số âm
+    for (int i = 0; i <= n; i++) { // Lỗi vượt biên mảng (i <= n)
+        if (a[i] > maxVal) {
+            maxVal = a[i];
         }
+    }
+    return maxVal;
+}</textarea>
 
-        async function startBubbleSort() {
-            const btn = document.getElementById('sort-btn');
-            btn.disabled = true;
-            btn.classList.add('opacity-50');
+          <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+            <button class="btn btn-primary" onclick="analyzeCode()">Phân tích & Gợi ý gỡ lỗi</button>
+            <button class="btn btn-success" onclick="checkFix()">Kiểm tra bài tự sửa</button>
+            <button class="btn btn-secondary" onclick="resetCode()">Khôi phục code lỗi</button>
+          </div>
 
-            const n = array.length;
-            for (let i = 0; i < n - 1; i++) {
-                for (let j = 0; j < n - i - 1; j++) {
-                    const bar1 = document.getElementById(`bar-${j}`);
-                    const bar2 = document.getElementById(`bar-${j + 1}`);
+          <div class="autonomy-meter">
+            <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:600;">
+              <span>Chỉ số Tự chủ Tư duy (Đánh giá quy trình)</span>
+              <span id="autonomyScore" style="color:var(--secondary);">85% (Tốt)</span>
+            </div>
+            <div class="meter-bar">
+              <div id="meterFill" class="meter-fill"></div>
+            </div>
+            <p id="autonomyNote" style="font-size:0.8rem; color:var(--muted);">
+              Sinh viên tự phân tích gợi ý và chỉnh sửa mã nguồn thay vì sao chép kết quả cuối cùng.
+            </p>
+          </div>
+        </div>
 
-                    bar1.classList.replace('bg-blue-500', 'bg-amber-400');
-                    bar2.classList.replace('bg-blue-500', 'bg-amber-400');
+        <div class="card">
+          <h3>Phản hồi từ Trợ giảng AI</h3>
+          <div id="chatBox" class="chat-box">
+            <div class="msg msg-ai">
+              <strong>Trợ giảng Socratic:</strong> Chào bạn! Hãy thử chạy kiểm tra đoạn hàm <code>timMax</code> bên trái. Mình sẽ không đưa ngay code sửa sẵn mà sẽ đặt câu hỏi gợi mở để bạn tự phát hiện <strong>2 lỗi logic</strong> quan trọng nhé!
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                    await new Promise(r => setTimeout(r, 400));
+    <!-- TAB 4: QUY TẮC & TỰ ĐÁNH GIÁ -->
+    <section id="ethics" class="tab-panel">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Trắc nghiệm: Mức độ phụ thuộc AI của bạn</h3>
+          <p style="font-size:0.88rem; color:var(--muted); margin-bottom:1rem;">Đánh giá thói quen sử dụng ChatGPT/Copilot trong học tập lập trình.</p>
 
-                    if (array[j] > array[j + 1]) {
-                        // Swap array values
-                        let temp = array[j];
-                        array[j] = array[j + 1];
-                        array[j + 1] = temp;
+          <div class="quiz-q">
+            <strong>1. Khi gặp bài tập lập trình mới, bước đầu tiên của bạn là gì?</strong>
+            <div class="quiz-options">
+              <label><input type="radio" name="q1" value="2"> Tự phân tích đề, vẽ lưu đồ/nháp thuật toán trước rồi mới hỏi AI.</label>
+              <label><input type="radio" name="q1" value="1"> Hỏi AI gợi ý hướng tiếp cận tổng quát.</label>
+              <label><input type="radio" name="q1" value="0"> Dán nguyên đề bài vào ChatGPT để lấy code hoàn chỉnh.</label>
+            </div>
+          </div>
 
-                        // Update visual UI
-                        bar1.style.height = `${array[j] * 2}px`;
-                        bar1.innerText = array[j];
-                        bar2.style.height = `${array[j + 1] * 2}px`;
-                        bar2.innerText = array[j + 1];
-                    }
+          <div class="quiz-q">
+            <strong>2. Khi AI sinh ra một đoạn mã chạy đúng kết quả, bạn làm gì tiếp theo?</strong>
+            <div class="quiz-options">
+              <label><input type="radio" name="q2" value="2"> Đọc hiểu từng dòng, kiểm thử các trường hợp biên (số âm, rỗng) và viết lại.</label>
+              <label><input type="radio" name="q2" value="1"> Đọc lướt qua giải thích của AI rồi nộp bài.</label>
+              <label><input type="radio" name="q2" value="0"> Nộp thẳng mà không cần hiểu bên trong hoạt động ra sao.</label>
+            </div>
+          </div>
 
-                    bar1.classList.replace('bg-amber-400', 'bg-blue-500');
-                    bar2.classList.replace('bg-amber-400', 'bg-blue-500');
-                }
-                document.getElementById(`bar-${n - i - 1}`).classList.replace('bg-blue-500', 'bg-emerald-500');
-            }
-            document.getElementById('bar-0').classList.replace('bg-blue-500', 'bg-emerald-500');
+          <div class="quiz-q" style="border:none;">
+            <strong>3. Khi chương trình báo lỗi biên dịch (Compile Error), bạn xử lý thế nào?</strong>
+            <div class="quiz-options">
+              <label><input type="radio" name="q3" value="2"> Tự đọc thông báo lỗi và dòng code liên quan trước; chỉ hỏi AI khi bế tắc.</label>
+              <label><input type="radio" name="q3" value="1"> Hỏi AI giải thích nguyên nhân lỗi thay vì bảo AI sửa hộ.</label>
+              <label><input type="radio" name="q3" value="0"> Quăng toàn bộ file code cho AI sửa đi sửa lại nhiều lần.</label>
+            </div>
+          </div>
 
-            btn.disabled = false;
-            btn.classList.remove('opacity-50');
+          <button class="btn btn-primary" onclick="evaluateQuiz()">Xem kết quả đánh giá</button>
+          <div id="quizResult" style="margin-top:1rem; font-size:0.92rem;"></div>
+        </div>
+
+        <div class="card">
+          <h3>Thư viện Prompt chuẩn (Đảm bảo Trung thực Học thuật)</h3>
+          <p style="font-size:0.88rem; color:var(--muted); margin-bottom:1rem;">Sử dụng các mẫu câu lệnh sau để khai thác AI như một gia sư thay vì vi phạm quy chế.</p>
+
+          <div class="prompt-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="tag tag-blue">1. Gợi ý thuật toán (Không xin code)</span>
+              <button class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
+            </div>
+            <code class="prompt-text">"Tôi đang giải bài toán [mô tả bài toán]. Hãy đóng vai giảng viên hướng dẫn, chỉ gợi ý cho tôi 3 bước tư duy thuật toán và các trường hợp biên cần lưu ý, tuyệt đối không viết code mẫu."</code>
+          </div>
+
+          <div class="prompt-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="tag tag-green">2. Hỗ trợ tự gỡ lỗi (Debugging)</span>
+              <button class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
+            </div>
+            <code class="prompt-text">"Đoạn code sau của tôi bị sai kết quả với bộ dữ liệu [input]. Đừng sửa trực tiếp code, hãy đặt câu hỏi gợi mở để tôi tự nhận ra lỗi logic ở dòng nào."</code>
+          </div>
+
+          <div class="prompt-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="tag tag-amber">3. Phản biện & Tối ưu mã nguồn</span>
+              <button class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
+            </div>
+            <code class="prompt-text">"Đây là code tôi đã tự viết và chạy đúng. Hãy đánh giá độ phức tạp thời gian (Big-O) và gợi ý cách tối ưu cấu trúc dữ liệu sạch hơn."</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function filterStudies() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const cat = document.getElementById('focusFilter').value;
+      const rows = document.querySelectorAll('#studiesTable tbody tr');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        const rowCat = row.getAttribute('data-category');
+        const matchText = text.includes(q);
+        const matchCat = (cat === 'all' || rowCat === cat);
+        row.style.display = (matchText && matchCat) ? '' : 'none';
+      });
+    }
+
+    function showBloomInfo(title, desc) {
+      const box = document.getElementById('bloomDetail');
+      box.innerHTML = `<strong>${title}:</strong> ${desc}`;
+    }
+
+    let currentMode = 'socratic';
+
+    function setTutorMode(mode) {
+      currentMode = mode;
+      const btnS = document.getElementById('btnSocratic');
+      const btnP = document.getElementById('btnPassive');
+      const fill = document.getElementById('meterFill');
+      const score = document.getElementById('autonomyScore');
+      const note = document.getElementById('autonomyNote');
+
+      if (mode === 'socratic') {
+        btnS.className = 'mode-btn active-socratic';
+        btnP.className = 'mode-btn';
+        fill.style.width = '85%';
+        fill.style.background = '#0f766e';
+        score.innerText = '85% (Tốt)';
+        score.style.color = '#0f766e';
+        note.innerText = 'Sinh viên tự phân tích gợi ý và chỉnh sửa mã nguồn thay vì sao chép kết quả cuối cùng.';
+      } else {
+        btnS.className = 'mode-btn';
+        btnP.className = 'mode-btn active-passive';
+        fill.style.width = '20%';
+        fill.style.background = '#dc2626';
+        score.innerText = '20% (Nguy cơ phụ thuộc cao)';
+        score.style.color = '#dc2626';
+        note.innerText = 'Cảnh báo: Yêu cầu AI viết lại toàn bộ code làm suy giảm tư duy phản biện và vi phạm đạo đức học thuật.';
+      }
+    }
+
+    function analyzeCode() {
+      const chat = document.getElementById('chatBox');
+      if (currentMode === 'socratic') {
+        chat.innerHTML += `
+          <div class="msg msg-ai">
+            <strong>Gợi ý Socratic (Không cung cấp code mẫu):</strong><br/>
+            1. <em>Kiểm tra giá trị khởi tạo:</em> Nếu mảng đầu vào gồm toàn số âm (ví dụ: <code>{-5, -2, -9}</code>), biến <code>maxVal = 0</code> sẽ trả về kết quả nào?<br/>
+            2. <em>Kiểm tra điều kiện biên vòng lặp:</em> Mảng có <code>n</code> phần tử thì chỉ số hợp lệ chạy từ <code>0</code> đến bao nhiêu? Hãy xem lại dấu <code>&lt;=</code> ở vòng lặp <code>for</code>.
+          </div>`;
+      } else {
+        chat.innerHTML += `
+          <div class="msg msg-warn">
+            <strong>Cảnh báo Sư phạm (Chế độ Thụ động):</strong><br/>
+            Nếu AI trả về ngay đoạn mã đã sửa hoàn chỉnh, bạn sẽ hoàn thành bài trong 5 giây nhưng bỏ qua bước tự phát hiện lỗi tràn bộ nhớ (Out-of-bounds) và lỗi khởi tạo biến. Hãy chuyển sang <strong>Chế độ Socratic</strong> để tự sửa và kiểm tra!
+          </div>`;
+      }
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function checkFix() {
+      const code = document.getElementById('studentCode').value;
+      const chat = document.getElementById('chatBox');
+      const fixedInit = code.includes('a[0]') || code.includes('INT_MIN');
+      const fixedLoop = code.includes('i < n') && !code.includes('i <= n');
+
+      if (fixedInit && fixedLoop) {
+        document.getElementById('meterFill').style.width = '100%';
+        document.getElementById('autonomyScore').innerText = '100% (Xuất sắc)';
+        chat.innerHTML += `
+          <div class="msg msg-ai" style="border-left-color:#16a34a;">
+            <strong>Chính xác!</strong> Bạn đã tự khắc phục cả 2 lỗi: khởi tạo <code>maxVal = a[0]</code> để xử lý đúng mảng số âm và sửa điều kiện dừng thành <code>i &lt; n</code>. Tư duy gỡ lỗi độc lập của bạn được ghi nhận!
+          </div>`;
+      } else {
+        chat.innerHTML += `
+          <div class="msg msg-ai">
+            <strong>Chưa hoàn tất:</strong> Vẫn còn ít nhất một lỗi logic trong code của bạn (${!fixedInit ? 'kiểm tra lại giá trị khởi tạo maxVal' : ''}${(!fixedInit && !fixedLoop) ? ' và ' : ''}${!fixedLoop ? 'kiểm tra lại điều kiện dừng vòng lặp i <= n' : ''}). Hãy thử chỉnh trực tiếp trong khung code rồi bấm kiểm tra lại nhé!
+          </div>`;
+      }
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function resetCode() {
+      document.getElementById('studentCode').value = `#include <iostream>
+using namespace std;
+
+int timMax(int a[], int n) {
+    int maxVal = 0; // Lỗi tiềm ẩn khi mảng toàn số âm
+    for (int i = 0; i <= n; i++) { // Lỗi vượt biên mảng (i <= n)
+        if (a[i] > maxVal) {
+            maxVal = a[i];
         }
+    }
+    return maxVal;
+}`;
+    }
 
-        // Initialize array on load
-        generateArray();
-    </script>
+    function evaluateQuiz() {
+      let total = 0;
+      let answered = 0;
+      for (let i = 1; i <= 3; i++) {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        if (sel) {
+          total += parseInt(sel.value, 10);
+          answered++;
+        }
+      }
+      const res = document.getElementById('quizResult');
+      if (answered < 3) {
+        res.innerHTML = '<span style="color:#dc2626;">Vui lòng trả lời đầy đủ cả 3 câu hỏi trước khi xem kết quả.</span>';
+        return;
+      }
+      if (total >= 5) {
+        res.innerHTML = `<div class="msg msg-ai"><strong>Điểm số: ${total}/6 — Người học Chủ động & Phản biện:</strong> Bạn đang khai thác AI đúng định hướng "đồng tác giả" hỗ trợ tư duy mà vẫn giữ vững năng lực lập trình cốt lõi.</div>`;
+      } else if (total >= 3) {
+        res.innerHTML = `<div class="msg msg-ai" style="border-left-color:#d97706;"><strong>Điểm số: ${total}/6 — Mức độ Cân bằng (Cần lưu ý):</strong> Bạn có sử dụng AI để hiểu bài nhưng đôi lúc vẫn dựa vào mã nguồn có sẵn. Hãy ưu tiên tự viết nháp trước khi hỏi AI.</div>`;
+      } else {
+        res.innerHTML = `<div class="msg msg-warn"><strong>Điểm số: ${total}/6 — Nguy cơ Phụ thuộc Kỹ thuật Cao:</strong> Việc sao chép trực tiếp mã nguồn từ AI dễ làm suy giảm tư duy thuật toán và vi phạm tính trung thực học thuật. Hãy áp dụng thử các mẫu Prompt bên cạnh!</div>`;
+      }
+    }
+
+    function copyPrompt(btn) {
+      const codeEl = btn.parentElement.nextElementSibling;
+      navigator.clipboard.writeText(codeEl.innerText.replace(/^"|"$/g, ''));
+      const old = btn.innerText;
+      btn.innerText = 'Đã chép!';
+      setTimeout(() => btn.innerText = old, 1500);
+    }
+  </script>
 </body>
 </html>
