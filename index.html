@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trắc Nghiệm Hóa Học - Điều Chế Kim Loại & Hợp Kim</title>
-    <!-- Tải Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tải Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- ... existing code ... -->
     <!-- Tải Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Tải thư viện SheetJS để xuất file Excel (.xlsx) -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -24,38 +15,47 @@
         }
     </script>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-800">
-
-    <!-- Thanh điều hướng / Header -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-md shadow-indigo-200">
-                    <i data-lucide="flask-conical" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <h1 class="text-lg sm:text-xl font-bold text-slate-900 leading-tight">Trắc Nghiệm Hóa Học</h1>
-                    <p class="text-xs sm:text-sm text-slate-500">Chuyên đề: Tách kim loại & Hợp kim của sắt, nhôm</p>
-                </div>
-            </div>
-            
-            <!-- Bộ đếm tiến độ làm bài -->
-            <div class="flex items-center gap-2 bg-slate-100 px-3.5 py-2 rounded-xl border border-slate-200">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-600"></i>
-                <span class="text-xs sm:text-sm font-semibold text-slate-700">
-                    Đã chọn: <span id="progress-count" class="text-indigo-600">0</span>/7
-                </span>
-            </div>
-        </div>
-        <!-- Thanh tiến độ trực quan -->
-        <div class="w-full bg-slate-100 h-1.5">
-            <div id="progress-bar" class="bg-indigo-600 h-1.5 transition-all duration-300 ease-out" style="width: 0%"></div>
-        </div>
-    </header>
-
+<!-- ... existing code ... -->
     <!-- Nội dung chính -->
     <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
         
+        <!-- Khu vực nhập thông tin thí sinh -->
+        <section id="student-info-card" class="mb-6 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm transition-all duration-300">
+            <div class="flex items-center gap-2.5 mb-4">
+                <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center border border-indigo-100">
+                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900">Thông tin thí sinh</h2>
+                    <p class="text-xs text-slate-500">Vui lòng nhập đầy đủ họ tên để ghi nhận điểm và xuất phiếu kết quả</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="sm:col-span-2">
+                    <label for="student-name" class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5">
+                        Họ và tên thí sinh <span class="text-rose-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <input type="text" id="student-name" placeholder="Ví dụ: Nguyễn Văn An" oninput="clearNameError()"
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all bg-slate-50/50 focus:bg-white">
+                    </div>
+                    <p id="name-error-msg" class="hidden text-xs font-medium text-rose-600 mt-1.5 flex items-center gap-1">
+                        <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                        <span>Vui lòng nhập họ và tên của bạn trước khi nộp bài!</span>
+                    </p>
+                </div>
+
+                <div>
+                    <label for="student-class" class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1.5">
+                        Lớp / Mã số <span class="text-slate-400 font-normal">(Tùy chọn)</span>
+                    </label>
+                    <input type="text" id="student-class" placeholder="Ví dụ: 12A1"
+                           class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all bg-slate-50/50 focus:bg-white">
+                </div>
+            </div>
+        </section>
+
         <!-- Bảng kết quả (Ẩn mặc định, hiện sau khi nộp bài) -->
         <section id="result-panel" class="hidden mb-8 bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden transition-all duration-500">
             <div class="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 px-6 py-6 text-white text-center relative overflow-hidden">
@@ -64,41 +64,19 @@
                         Kết quả bài làm
                     </span>
                     <h2 id="result-greeting" class="text-2xl sm:text-3xl font-extrabold mb-1">Hoàn thành xuất sắc!</h2>
-                    <p id="result-subtitle" class="text-indigo-100 text-sm sm:text-base">Dưới đây là chi tiết điểm số và lời giải cho từng câu hỏi.</p>
+                    <p id="result-student-meta" class="text-white font-semibold text-sm sm:text-base mt-1"></p>
+                    <p id="result-subtitle" class="text-indigo-100 text-xs sm:text-sm mt-1">Dưới đây là chi tiết điểm số và lời giải cho từng câu hỏi.</p>
                 </div>
             </div>
 
             <div class="p-6 sm:p-8">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                    <!-- Thẻ Số câu đúng -->
-                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
-                        <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-2">
-                            <i data-lucide="check" class="w-5 h-5"></i>
-                        </div>
-                        <p class="text-xs font-medium text-emerald-700 uppercase tracking-wide">Số câu đúng</p>
-                        <p id="correct-count-display" class="text-2xl sm:text-3xl font-extrabold text-emerald-700 mt-1">0/7</p>
-                    </div>
-
-                    <!-- Thẻ Điểm số -->
-                    <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 text-center">
-                        <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-2">
-                            <i data-lucide="award" class="w-5 h-5"></i>
-                        </div>
-                        <p class="text-xs font-medium text-indigo-700 uppercase tracking-wide">Điểm số (Thang 10)</p>
-                        <p id="score-display" class="text-2xl sm:text-3xl font-extrabold text-indigo-700 mt-1">0.00</p>
-                    </div>
-
-                    <!-- Thẻ Đánh giá -->
-                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-center">
-                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-2">
-                            <i data-lucide="sparkles" class="w-5 h-5"></i>
-                        </div>
-                        <p class="text-xs font-medium text-amber-700 uppercase tracking-wide">Xếp loại</p>
-                        <p id="grade-display" class="text-xl sm:text-2xl font-extrabold text-amber-700 mt-1.5">--</p>
-                    </div>
-                </div>
-
-                <div class="flex justify-center">
+<!-- ... existing code ... -->
+                <div class="flex flex-col sm:flex-row justify-center gap-3">
+                    <button type="button" onclick="exportToExcel()" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-semibold text-sm sm:text-base transition-all shadow-md shadow-emerald-200 cursor-pointer">
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                        <span>Xuất kết quả Excel (.xlsx)</span>
+                    </button>
                     <button type="button" onclick="resetQuiz()" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-semibold text-sm sm:text-base transition-all shadow-md cursor-pointer">
                         <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
                         <span>Làm lại bài thi</span>
@@ -106,156 +84,11 @@
                 </div>
             </div>
         </section>
-
-        <!-- Danh sách câu hỏi -->
-        <form id="quiz-form" class="space-y-6">
-            <div id="questions-container" class="space-y-6">
-                <!-- Các câu hỏi sẽ được render bằng JavaScript tại đây -->
-            </div>
-
-            <!-- Khu vực nút điều khiển cuối trang -->
-            <div id="action-bar" class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p id="helper-text" class="text-sm text-slate-600 text-center sm:text-left">
-                    Hãy kiểm tra kỹ các lựa chọn trước khi bấm nộp bài nhé!
-                </p>
-                <div class="flex items-center gap-3 w-full sm:w-auto">
-                    <button type="button" id="reset-btn-bottom" onclick="resetQuiz()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 active:scale-95 text-slate-700 font-semibold text-sm transition-all cursor-pointer">
-                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-                        <span>Làm lại</span>
-                    </button>
-                    <button type="button" id="submit-btn" onclick="handleSubmitClick()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition-all cursor-pointer">
-                        <i data-lucide="send" class="w-4 h-4"></i>
-                        <span>Nộp bài</span>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-5 mt-8">
-        <div class="max-w-4xl mx-auto px-4 text-center text-xs sm:text-sm text-slate-500">
-            Hệ thống luyện tập trắc nghiệm Hóa học trực tuyến &bull; Chúc bạn đạt kết quả cao!
-        </div>
-    </footer>
-
-    <!-- Hộp thoại xác nhận tùy chỉnh (Thay thế confirm() của trình duyệt) -->
-    <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4 transition-opacity">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform transition-all">
-            <div class="flex items-start gap-4">
-                <div class="w-11 h-11 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
-                    <i data-lucide="alert-triangle" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-slate-900">Chưa hoàn thành tất cả câu hỏi</h3>
-                    <p id="confirm-modal-message" class="text-sm text-slate-600 mt-1.5 leading-relaxed">
-                        Bạn vẫn còn một số câu chưa chọn đáp án. Những câu bỏ trống sẽ được tính là sai. Bạn có chắc chắn muốn nộp bài không?
-                    </p>
-                </div>
-            </div>
-            <div class="mt-6 flex items-center justify-end gap-3">
-                <button type="button" onclick="closeConfirmModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 font-semibold text-sm transition-colors cursor-pointer">
-                    Tiếp tục làm bài
-                </button>
-                <button type="button" onclick="confirmAndGrade()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-sm transition-colors cursor-pointer">
-                    Vẫn nộp bài
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Dữ liệu 7 câu hỏi từ tài liệu của người dùng kèm giải thích chi tiết
-        const quizData = [
-            {
-                id: 1,
-                question: "Kim loại được tách bằng phương pháp nhiệt luyện là",
-                options: [
-                    { key: "A", text: "Al." },
-                    { key: "B", text: "Au." },
-                    { key: "C", text: "Mg." },
-                    { key: "D", text: "Fe." }
-                ],
-                correct: "D",
-                explanation: "Phương pháp nhiệt luyện dùng chất khử (như C, CO, H₂, Al) để khử ion kim loại trong hợp chất ở nhiệt độ cao, áp dụng cho các kim loại hoạt động trung bình và yếu (sau Al) như Zn, Fe, Sn, Pb, Cu. Al và Mg được điều chế bằng điện phân nóng chảy; Au tồn tại ở dạng đơn chất trong tự nhiên."
-            },
-            {
-                id: 2,
-                question: "Có thể sử dụng phương pháp nào để tách Na?",
-                options: [
-                    { key: "A", text: "Điện phân nóng chảy." },
-                    { key: "B", text: "Nhiệt luyện." },
-                    { key: "C", text: "Thủy luyện." },
-                    { key: "D", text: "Điện phân dung dịch." }
-                ],
-                correct: "A",
-                explanation: "Natri (Na) là kim loại kiềm hoạt động hóa học rất mạnh, ion Na⁺ rất khó bị khử nên chỉ có thể điều chế bằng phương pháp điện phân nóng chảy hợp chất của nó (thường là NaCl nóng chảy)."
-            },
-            {
-                id: 3,
-                question: "Nhôm có nhiều trong quặng",
-                options: [
-                    { key: "A", text: "hematite." },
-                    { key: "B", text: "bauxite." },
-                    { key: "C", text: "sphalerite." },
-                    { key: "D", text: "chlohydric." }
-                ],
-                correct: "B",
-                explanation: "Quặng bauxite (boxit) có thành phần chính là Al₂O₃·2H₂O, là nguồn nguyên liệu chủ yếu để sản xuất nhôm trong công nghiệp. Hematite chứa sắt (Fe₂O₃), sphalerite chứa kẽm (ZnS)."
-            },
-            {
-                id: 4,
-                question: "Kim loại cơ bản có trong đuy-ra là",
-                options: [
-                    { key: "A", text: "vàng." },
-                    { key: "B", text: "sắt." },
-                    { key: "C", text: "nhôm." },
-                    { key: "D", text: "nickel." }
-                ],
-                correct: "C",
-                explanation: "Đuy-ra (Duralumin) là hợp kim nhẹ và bền của nhôm (Al chiếm khoảng 90% - 95%) với đồng (Cu), mangan (Mn), magie (Mg) và silic (Si)."
-            },
-            {
-                id: 5,
-                question: "Hợp kim X có thành phần chính là sắt và carbon, trong đó carbon chiếm hàm lượng 2% - 5%. X có thể là",
-                options: [
-                    { key: "A", text: "đuy-ra." },
-                    { key: "B", text: "inox." },
-                    { key: "C", text: "thép." },
-                    { key: "D", text: "gang." }
-                ],
-                correct: "D",
-                explanation: "Gang là hợp kim của sắt với carbon (trong đó carbon chiếm từ 2% đến 5% về khối lượng) và một lượng nhỏ các nguyên tố khác như Si, Mn, S, P. Thép có hàm lượng carbon dưới 2%."
-            },
-            {
-                id: 6,
-                question: "Trong quá trình sản xuất thép, khí oxygen được thổi vào lò đựng gang nóng chảy ở nhiệt độ cao để",
-                options: [
-                    { key: "A", text: "tăng nhiệt độ của lò đốt." },
-                    { key: "B", text: "đốt cháy tạp chất trong gang." },
-                    { key: "C", text: "giảm áp suất trong lò." },
-                    { key: "D", text: "tăng hiệu suất của phản ứng tạo tháp." }
-                ],
-                correct: "B",
-                explanation: "Nguyên tắc sản xuất thép từ gang là oxi hóa các tạp chất có trong gang (như C, Si, Mn, S, P) bằng khí oxygen ở nhiệt độ cao để biến chúng thành các oxide rồi loại bỏ ra khỏi thép (dưới dạng khí hoặc xỉ)."
-            },
-            {
-                id: 7,
-                question: "Trong sản xuất gang, không khí nóng được thổi theo chiều",
-                options: [
-                    { key: "A", text: "từ dưới lên." },
-                    { key: "B", text: "từ trên xuống." },
-                    { key: "C", text: "từ trái sang phải." },
-                    { key: "D", text: "từ phải sang trái." }
-                ],
-                correct: "A",
-                explanation: "Trong lò cao luyện gang, nguyên liệu (quặng sắt, than cốc, đá vôi) được đưa từ trên xuống, còn luồng không khí nóng giàu oxygen được thổi từ dưới lên để đốt cháy than cốc tạo nhiệt và khí CO khử oxit sắt."
-            }
-        ];
-
+<!-- ... existing code ... -->
         // Trạng thái ứng dụng
         let userAnswers = {}; // Lưu dạng { questionId: "A" }
         let isSubmitted = false;
+        let lastResultData = null; // Lưu thông tin bài thi đã chấm để xuất Excel
 
         // Khởi tạo giao diện khi tải trang
         document.addEventListener("DOMContentLoaded", () => {
@@ -263,278 +96,119 @@
             lucide.createIcons();
         });
 
-        // Hàm render danh sách câu hỏi ra DOM
-        function renderQuestions() {
-            const container = document.getElementById("questions-container");
-            container.innerHTML = "";
+        // Xóa thông báo lỗi khi người dùng bắt đầu gõ tên
+        function clearNameError() {
+            const nameInput = document.getElementById("student-name");
+            const errorMsg = document.getElementById("name-error-msg");
+            const infoCard = document.getElementById("student-info-card");
 
-            quizData.forEach((item, index) => {
-                const card = document.createElement("article");
-                card.id = `question-card-${item.id}`;
-                card.className = "bg-white rounded-2xl border border-slate-200 p-5 sm:p-7 shadow-sm transition-all duration-300";
-
-                // Tạo HTML cho 4 lựa chọn A, B, C, D
-                const optionsHtml = item.options.map(opt => {
-                    return `
-                        <label id="option-label-${item.id}-${opt.key}" 
-                               onclick="selectOption(${item.id}, '${opt.key}')"
-                               class="option-item group relative flex items-center gap-3.5 p-3.5 sm:p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-indigo-300 hover:bg-indigo-50/40 cursor-pointer transition-all select-none">
-                            <input type="radio" name="question_${item.id}" value="${opt.key}" class="sr-only">
-                            
-                            <!-- Vòng tròn ký hiệu A, B, C, D -->
-                            <span id="badge-${item.id}-${opt.key}" class="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 font-bold text-sm flex items-center justify-center shrink-0 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition-colors">
-                                ${opt.key}
-                            </span>
-                            
-                            <!-- Nội dung đáp án -->
-                            <span id="text-${item.id}-${opt.key}" class="text-sm sm:text-base font-medium text-slate-700 flex-1">
-                                ${opt.text}
-                            </span>
-
-                            <!-- Icon trạng thái sau khi nộp bài (ẩn mặc định) -->
-                            <span id="status-icon-${item.id}-${opt.key}" class="hidden shrink-0"></span>
-                        </label>
-                    `;
-                }).join("");
-
-                card.innerHTML = `
-                    <div class="flex items-start gap-3 mb-4">
-                        <span class="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold text-xs sm:text-sm shrink-0 border border-indigo-100">
-                            Câu ${index + 1}
-                        </span>
-                        <h3 class="text-base sm:text-lg font-semibold text-slate-900 leading-snug pt-0.5">
-                            ${item.question}
-                        </h3>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                        ${optionsHtml}
-                    </div>
-
-                    <!-- Khung giải thích đáp án (ẩn trước khi nộp bài) -->
-                    <div id="explanation-${item.id}" class="hidden mt-5 p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700 leading-relaxed">
-                        <div class="flex items-center gap-2 font-bold text-slate-900 mb-1">
-                            <i data-lucide="lightbulb" class="w-4 h-4 text-amber-500"></i>
-                            <span>Giải thích chi tiết:</span>
-                        </div>
-                        <p>${item.explanation}</p>
-                    </div>
-                `;
-
-                container.appendChild(card);
-            });
+            if (nameInput.value.trim() !== "") {
+                nameInput.classList.remove("border-rose-500", "ring-2", "ring-rose-200");
+                infoCard.classList.remove("border-rose-300", "ring-2", "ring-rose-200");
+                errorMsg.classList.add("hidden");
+            }
         }
-
-        // Xử lý khi người dùng chọn một đáp án
-        function selectOption(questionId, optionKey) {
-            // Vô hiệu hóa nếu đã nộp bài
-            if (isSubmitted) return;
-
-            // Lưu lựa chọn của người dùng
-            userAnswers[questionId] = optionKey;
-
-            // Cập nhật giao diện các lựa chọn trong câu hỏi này
-            const questionObj = quizData.find(q => q.id === questionId);
-            questionObj.options.forEach(opt => {
-                const label = document.getElementById(`option-label-${questionId}-${opt.key}`);
-                const badge = document.getElementById(`badge-${questionId}-${opt.key}`);
-                const text = document.getElementById(`text-${questionId}-${opt.key}`);
-                const radio = label.querySelector("input[type='radio']");
-
-                if (opt.key === optionKey) {
-                    radio.checked = true;
-                    label.classList.remove("border-slate-200", "bg-white", "hover:border-indigo-300", "hover:bg-indigo-50/40");
-                    label.classList.add("border-indigo-600", "bg-indigo-50/80", "shadow-xs");
-                    
-                    badge.classList.remove("bg-slate-100", "text-slate-700", "group-hover:bg-indigo-100", "group-hover:text-indigo-700");
-                    badge.classList.add("bg-indigo-600", "text-white");
-
-                    text.classList.remove("text-slate-700");
-                    text.classList.add("text-indigo-950", "font-semibold");
-                } else {
-                    radio.checked = false;
-                    label.classList.remove("border-indigo-600", "bg-indigo-50/80", "shadow-xs");
-                    label.classList.add("border-slate-200", "bg-white", "hover:border-indigo-300", "hover:bg-indigo-50/40");
-
-                    badge.classList.remove("bg-indigo-600", "text-white");
-                    badge.classList.add("bg-slate-100", "text-slate-700", "group-hover:bg-indigo-100", "group-hover:text-indigo-700");
-
-                    text.classList.remove("text-indigo-950", "font-semibold");
-                    text.classList.add("text-slate-700");
-                }
-            });
-
-            // Xóa viền cảnh báo chưa làm (nếu có)
-            const card = document.getElementById(`question-card-${questionId}`);
-            card.classList.remove("ring-2", "ring-amber-400");
-
-            updateProgress();
-        }
-
-        // Cập nhật thanh tiến độ trên header
-        function updateProgress() {
-            const answeredCount = Object.keys(userAnswers).length;
-            const total = quizData.length;
-            const percentage = (answeredCount / total) * 100;
-
-            document.getElementById("progress-count").textContent = answeredCount;
-            document.getElementById("progress-bar").style.width = `${percentage}%`;
-        }
-
+// ... existing code ...
         // Xử lý khi bấm nút "Nộp bài"
         function handleSubmitClick() {
             if (isSubmitted) return;
 
+            // Kiểm tra bắt buộc nhập Họ và tên
+            const nameInput = document.getElementById("student-name");
+            const studentName = nameInput.value.trim();
+            if (!studentName) {
+                const errorMsg = document.getElementById("name-error-msg");
+                const infoCard = document.getElementById("student-info-card");
+
+                nameInput.classList.add("border-rose-500", "ring-2", "ring-rose-200");
+                infoCard.classList.add("border-rose-300", "ring-2", "ring-rose-200");
+                errorMsg.classList.remove("hidden");
+
+                infoCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                setTimeout(() => nameInput.focus(), 300);
+                return;
+            }
+
             const answeredCount = Object.keys(userAnswers).length;
             const total = quizData.length;
-
-            if (answeredCount < total) {
-                const unanswered = total - answeredCount;
-                // Đánh dấu nhẹ các câu chưa làm
-                quizData.forEach(q => {
-                    if (!userAnswers[q.id]) {
-                        const card = document.getElementById(`question-card-${q.id}`);
-                        card.classList.add("ring-2", "ring-amber-400");
-                    }
-                });
-
-                // Hiển thị hộp thoại xác nhận tùy chỉnh
-                const modal = document.getElementById("confirm-modal");
-                const msg = document.getElementById("confirm-modal-message");
-                msg.textContent = `Bạn mới hoàn thành ${answeredCount}/${total} câu (còn ${unanswered} câu bỏ trống). Các câu bỏ trống sẽ bị tính là sai. Bạn có chắc chắn muốn nộp bài không?`;
-                modal.classList.remove("hidden");
-                modal.classList.add("flex");
-            } else {
-                gradeQuiz();
-            }
-        }
-
-        // Đóng hộp thoại xác nhận
-        function closeConfirmModal() {
-            const modal = document.getElementById("confirm-modal");
-            modal.classList.add("hidden");
-            modal.classList.remove("flex");
-
-            // Cuộn tới câu hỏi đầu tiên chưa làm để hỗ trợ người dùng
-            const firstUnanswered = quizData.find(q => !userAnswers[q.id]);
-            if (firstUnanswered) {
-                const card = document.getElementById(`question-card-${firstUnanswered.id}`);
-                card.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
-        }
-
-        // Xác nhận nộp bài từ hộp thoại
-        function confirmAndGrade() {
-            const modal = document.getElementById("confirm-modal");
-            modal.classList.add("hidden");
-            modal.classList.remove("flex");
-            gradeQuiz();
-        }
-
-        // Chấm điểm và hiển thị kết quả chi tiết
-        function gradeQuiz() {
-            isSubmitted = true;
-            let correctCount = 0;
-            const totalQuestions = quizData.length;
-
-            quizData.forEach(q => {
-                const userChoice = userAnswers[q.id];
-                const isCorrect = userChoice === q.correct;
-                if (isCorrect) correctCount++;
-
-                const card = document.getElementById(`question-card-${q.id}`);
-                card.classList.remove("ring-2", "ring-amber-400", "border-slate-200");
-
-                // Đổi viền card theo kết quả đúng/sai của câu đó
-                if (isCorrect) {
-                    card.classList.add("border-emerald-300", "bg-emerald-50/10");
-                } else {
-                    card.classList.add("border-rose-300", "bg-rose-50/10");
-                }
-
-                // Tô màu từng phương án và vô hiệu hóa thao tác chọn lại
-                q.options.forEach(opt => {
-                    const label = document.getElementById(`option-label-${q.id}-${opt.key}`);
-                    const badge = document.getElementById(`badge-${q.id}-${opt.key}`);
-                    const text = document.getElementById(`text-${q.id}-${opt.key}`);
-                    const statusIcon = document.getElementById(`status-icon-${q.id}-${opt.key}`);
-                    const radio = label.querySelector("input[type='radio']");
-
-                    // Khóa radio và đổi con trỏ chuột
-                    radio.disabled = true;
-                    label.classList.remove("cursor-pointer", "hover:border-indigo-300", "hover:bg-indigo-50/40", "border-indigo-600", "bg-indigo-50/80");
-                    label.classList.add("cursor-default");
-
-                    badge.classList.remove("group-hover:bg-indigo-100", "group-hover:text-indigo-700");
-
-                    if (opt.key === q.correct) {
-                        // Đáp án đúng -> Tô màu xanh lá nổi bật
-                        label.classList.remove("border-slate-200", "bg-white");
-                        label.classList.add("border-emerald-500", "bg-emerald-50");
-
-                        badge.classList.remove("bg-slate-100", "text-slate-700", "bg-indigo-600");
-                        badge.classList.add("bg-emerald-600", "text-white");
-
-                        text.classList.remove("text-slate-700", "text-indigo-950");
-                        text.classList.add("text-emerald-950", "font-semibold");
-
-                        statusIcon.classList.remove("hidden");
-                        statusIcon.innerHTML = `<span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-md"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Đáp án đúng</span>`;
-                    } else if (opt.key === userChoice && userChoice !== q.correct) {
-                        // Đáp án người dùng chọn sai -> Tô màu đỏ
-                        label.classList.remove("border-slate-200", "bg-white");
-                        label.classList.add("border-rose-500", "bg-rose-50");
-
-                        badge.classList.remove("bg-slate-100", "text-slate-700", "bg-indigo-600");
-                        badge.classList.add("bg-rose-600", "text-white");
-
-                        text.classList.remove("text-slate-700", "text-indigo-950");
-                        text.classList.add("text-rose-950", "font-semibold");
-
-                        statusIcon.classList.remove("hidden");
-                        statusIcon.innerHTML = `<span class="inline-flex items-center gap-1 text-xs font-bold text-rose-700 bg-rose-100 px-2 py-1 rounded-md"><i data-lucide="x-circle" class="w-4 h-4"></i> Bạn chọn</span>`;
-                    } else {
-                        // Các đáp án nhiễu còn lại -> Làm mờ nhẹ
-                        label.classList.add("opacity-60");
-                    }
-                });
-
-                // Hiển thị khung giải thích
-                const explanationBox = document.getElementById(`explanation-${q.id}`);
-                explanationBox.classList.remove("hidden");
-                if (!userChoice) {
-                    explanationBox.insertAdjacentHTML(
-                        "afterbegin",
-                        `<p class="text-rose-600 font-semibold mb-2 flex items-center gap-1.5"><i data-lucide="alert-circle" class="w-4 h-4"></i> Bạn đã bỏ trống câu hỏi này.</p>`
-                    );
-                }
-            });
-
+// ... existing code ...
             // Tính điểm thang 10, làm tròn 2 chữ số thập phân
             const rawScore = (correctCount / totalQuestions) * 10;
             const formattedScore = rawScore.toFixed(2);
 
+            // Lấy thông tin thí sinh và khóa ô nhập liệu
+            const nameInput = document.getElementById("student-name");
+            const classInput = document.getElementById("student-class");
+            const studentName = nameInput.value.trim();
+            const studentClass = classInput.value.trim();
+
+            nameInput.disabled = true;
+            classInput.disabled = true;
+            nameInput.classList.add("bg-slate-100", "text-slate-600", "cursor-not-allowed");
+            classInput.classList.add("bg-slate-100", "text-slate-600", "cursor-not-allowed");
+
             // Cập nhật dữ liệu vào bảng kết quả
             document.getElementById("correct-count-display").textContent = `${correctCount}/${totalQuestions}`;
             document.getElementById("score-display").textContent = `${formattedScore} điểm`;
+            document.getElementById("result-student-meta").textContent = studentClass
+                ? `Thí sinh: ${studentName} — Lớp/Mã số: ${studentClass}`
+                : `Thí sinh: ${studentName}`;
 
             // Xếp loại và lời chúc tương ứng
             const greetingEl = document.getElementById("result-greeting");
             const gradeEl = document.getElementById("grade-display");
+            let gradeText = "";
 
             if (rawScore >= 8.5) {
                 greetingEl.textContent = "Xuất sắc! Kiến thức rất vững vàng!";
-                gradeEl.textContent = "Giỏi";
+                gradeText = "Giỏi";
             } else if (rawScore >= 6.5) {
                 greetingEl.textContent = "Làm tốt lắm! Tiếp tục phát huy nhé!";
-                gradeEl.textContent = "Khá";
+                gradeText = "Khá";
             } else if (rawScore >= 5.0) {
                 greetingEl.textContent = "Đạt yêu cầu! Hãy xem lại các câu sai nhé.";
-                gradeEl.textContent = "Trung bình";
+                gradeText = "Trung bình";
             } else {
                 greetingEl.textContent = "Cần ôn tập thêm kiến thức chuyên đề này!";
-                gradeEl.textContent = "Cần cố gắng";
+                gradeText = "Cần cố gắng";
             }
+            gradeEl.textContent = gradeText;
+
+            // Lưu dữ liệu chi tiết để xuất file Excel
+            const now = new Date();
+            const submittedTime = now.toLocaleString("vi-VN", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            });
+
+            lastResultData = {
+                studentName,
+                studentClass: studentClass || "Không có",
+                submittedTime,
+                correctSummary: `${correctCount}/${totalQuestions}`,
+                score: Number(formattedScore),
+                grade: gradeText,
+                details: quizData.map((q, idx) => {
+                    const chosenKey = userAnswers[q.id];
+                    const chosenOpt = q.options.find(o => o.key === chosenKey);
+                    const correctOpt = q.options.find(o => o.key === q.correct);
+                    let status = "Chưa làm";
+                    if (chosenKey) {
+                        status = chosenKey === q.correct ? "Đúng" : "Sai";
+                    }
+                    return {
+                        stt: idx + 1,
+                        question: q.question,
+                        chosenText: chosenOpt ? `${chosenOpt.key}. ${chosenOpt.text}` : "Bỏ trống",
+                        correctText: `${correctOpt.key}. ${correctOpt.text}`,
+                        status
+                    };
+                })
+            };
 
             // Hiển thị bảng kết quả và ẩn nút Nộp bài
             const resultPanel = document.getElementById("result-panel");
@@ -543,7 +217,7 @@
             const submitBtn = document.getElementById("submit-btn");
             submitBtn.classList.add("hidden");
 
-            document.getElementById("helper-text").textContent = "Bài làm đã được chấm điểm. Xem lại lời giải chi tiết ở từng câu phía trên.";
+            document.getElementById("helper-text").textContent = "Bài làm đã được chấm điểm. Bạn có thể xuất kết quả ra file Excel ở bảng phía trên.";
 
             // Render lại các icon Lucide mới thêm
             lucide.createIcons();
@@ -552,28 +226,95 @@
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
 
+        // Chuyển chuỗi tiếng Việt có dấu thành không dấu để đặt tên file an toàn
+        function removeVietnameseTones(str) {
+            return str
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/đ/g, "d")
+                .replace(/Đ/g, "D")
+                .replace(/[^a-zA-Z0-9\s]/g, "")
+                .trim()
+                .replace(/\s+/g, "_");
+        }
+
+        // Xuất kết quả bài thi ra file Excel (.xlsx)
+        function exportToExcel() {
+            if (!lastResultData || typeof XLSX === "undefined") return;
+
+            const data = lastResultData;
+
+            // Xây dựng cấu trúc dữ liệu dạng mảng 2 chiều cho sheet Excel
+            const worksheetRows = [
+                ["BÁO CÁO KẾT QUẢ BÀI THI TRẮC NGHIỆM HÓA HỌC"],
+                ["Chuyên đề: Tách kim loại & Hợp kim của sắt, nhôm"],
+                [],
+                ["THÔNG TIN THÍ SINH & KẾT QUẢ TỔNG HỢP"],
+                ["Họ và tên thí sinh", data.studentName],
+                ["Lớp / Mã số", data.studentClass],
+                ["Thời gian nộp bài", data.submittedTime],
+                ["Số câu đúng", data.correctSummary],
+                ["Điểm số (Thang điểm 10)", data.score],
+                ["Xếp loại", data.grade],
+                [],
+                ["CHI TIẾT BÀI LÀM TỪNG CÂU"],
+                ["Câu", "Nội dung câu hỏi", "Đáp án thí sinh chọn", "Đáp án đúng", "Trạng thái"]
+            ];
+
+            data.details.forEach(item => {
+                worksheetRows.push([
+                    `Câu ${item.stt}`,
+                    item.question,
+                    item.chosenText,
+                    item.correctText,
+                    item.status
+                ]);
+            });
+
+            // Khởi tạo Workbook và Worksheet
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(worksheetRows);
+
+            // Thiết lập độ rộng cột cho dễ đọc
+            ws["!cols"] = [
+                { wch: 26 }, // Cột A: Nhãn / Số câu
+                { wch: 52 }, // Cột B: Giá trị thông tin / Nội dung câu hỏi
+                { wch: 28 }, // Cột C: Đáp án thí sinh chọn
+                { wch: 28 }, // Cột D: Đáp án đúng
+                { wch: 16 }  // Cột E: Trạng thái
+            ];
+
+            // Gộp ô tiêu đề lớn ở đầu trang tính
+            ws["!merges"] = [
+                { s: { r: 0, c: 0 }, e: { r: 0, c: 4 } },
+                { s: { r: 1, c: 0 }, e: { r: 1, c: 4 } },
+                { s: { r: 3, c: 0 }, e: { r: 3, c: 4 } },
+                { s: { r: 11, c: 0 }, e: { r: 11, c: 4 } }
+            ];
+
+            XLSX.utils.book_append_sheet(wb, ws, "KetQuaThi");
+
+            // Tạo tên file chuẩn hóa theo tên thí sinh
+            const safeName = removeVietnameseTones(data.studentName) || "ThiSinh";
+            const fileName = `KetQua_TracNghiem_${safeName}.xlsx`;
+
+            XLSX.writeFile(wb, fileName);
+        }
+
         // Làm lại bài từ đầu
         function resetQuiz() {
             userAnswers = {};
             isSubmitted = false;
+            lastResultData = null;
+
+            // Mở khóa ô nhập thông tin thí sinh
+            const nameInput = document.getElementById("student-name");
+            const classInput = document.getElementById("student-class");
+            nameInput.disabled = false;
+            classInput.disabled = false;
+            nameInput.classList.remove("bg-slate-100", "text-slate-600", "cursor-not-allowed");
+            classInput.classList.remove("bg-slate-100", "text-slate-600", "cursor-not-allowed");
 
             // Ẩn bảng kết quả
             document.getElementById("result-panel").classList.add("hidden");
-
-            // Hiện lại nút Nộp bài và khôi phục dòng nhắc nhở
-            document.getElementById("submit-btn").classList.remove("hidden");
-            document.getElementById("helper-text").textContent = "Hãy kiểm tra kỹ các lựa chọn trước khi bấm nộp bài nhé!";
-
-            // Reset thanh tiến độ
-            updateProgress();
-
-            // Render lại toàn bộ danh sách câu hỏi về trạng thái ban đầu
-            renderQuestions();
-            lucide.createIcons();
-
-            // Cuộn lên đầu trang
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-    </script>
-</body>
-</html>
+// ... existing code ...
