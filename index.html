@@ -85,7 +85,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     .tab-list {
@@ -457,7 +457,7 @@
       padding: 0.85rem 1rem;
       border-radius: 10px;
       font-size: 0.9rem;
-      white-space: pre-line;
+      line-height: 1.55;
     }
 
     .msg-ai {
@@ -550,10 +550,10 @@
 
   <nav class="tabs">
     <div class="tab-list">
-      <button class="tab-btn active" onclick="switchTab('overview', this)">1. Tổng quan Bài báo</button>
-      <button class="tab-btn" onclick="switchTab('framework', this)">2. Khung UNESCO & Bloom</button>
-      <button class="tab-btn" onclick="switchTab('tutor', this)">3. Trợ giảng AI (Demo)</button>
-      <button class="tab-btn" onclick="switchTab('ethics', this)">4. Quy tắc & Tự đánh giá</button>
+      <button type="button" class="tab-btn active" onclick="switchTab('overview', this)">1. Tổng quan Bài báo</button>
+      <button type="button" class="tab-btn" onclick="switchTab('framework', this)">2. Khung UNESCO & Bloom</button>
+      <button type="button" class="tab-btn" onclick="switchTab('tutor', this)">3. Trợ giảng AI (Demo)</button>
+      <button type="button" class="tab-btn" onclick="switchTab('ethics', this)">4. Quy tắc & Tự đánh giá</button>
     </div>
   </nav>
 
@@ -735,8 +735,8 @@
         <div class="card">
           <div class="toolbar-row">
             <div class="mode-switch">
-              <button id="btnSocratic" class="mode-btn active-socratic" onclick="setTutorMode('socratic')">Chế độ Socratic</button>
-              <button id="btnPassive" class="mode-btn" onclick="setTutorMode('passive')">Chế độ Thụ động</button>
+              <button type="button" id="btnSocratic" class="mode-btn active-socratic" onclick="setTutorMode('socratic')">Chế độ Socratic</button>
+              <button type="button" id="btnPassive" class="mode-btn" onclick="setTutorMode('passive')">Chế độ Thụ động</button>
             </div>
             <select id="problemSelect" class="preset-select" onchange="loadPresetProblem()">
               <option value="max">Bài 1: Tìm Max mảng (C++)</option>
@@ -752,9 +752,9 @@
           <textarea id="studentCode" class="code-box"></textarea>
 
           <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
-            <button id="btnAnalyze" class="btn btn-primary" onclick="analyzeCode()">Phân tích & Gợi ý gỡ lỗi</button>
-            <button id="btnCheck" class="btn btn-success" onclick="checkFix()">Kiểm tra bài tự sửa</button>
-            <button class="btn btn-secondary" onclick="loadPresetProblem()">Khôi phục code mẫu</button>
+            <button type="button" id="btnAnalyze" class="btn btn-primary" onclick="analyzeCode()">Phân tích & Gợi ý gỡ lỗi</button>
+            <button type="button" id="btnCheck" class="btn btn-success" onclick="checkFix()">Kiểm tra bài tự sửa</button>
+            <button type="button" class="btn btn-secondary" onclick="loadPresetProblem()">Khôi phục code mẫu</button>
           </div>
 
           <div class="autonomy-meter">
@@ -816,7 +816,7 @@
             </div>
           </div>
 
-          <button class="btn btn-primary" onclick="evaluateQuiz()">Xem kết quả đánh giá</button>
+          <button type="button" class="btn btn-primary" onclick="evaluateQuiz()">Xem kết quả đánh giá</button>
           <div id="quizResult" style="margin-top:1rem; font-size:0.92rem;"></div>
         </div>
 
@@ -827,7 +827,7 @@
           <div class="prompt-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span class="tag tag-blue">1. Gợi ý thuật toán (Không xin code)</span>
-              <button class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
+              <button type="button" class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
             </div>
             <code class="prompt-text">"Tôi đang giải bài toán [mô tả bài toán]. Hãy đóng vai giảng viên hướng dẫn, chỉ gợi ý cho tôi 3 bước tư duy thuật toán và các trường hợp biên cần lưu ý, tuyệt đối không viết code mẫu."</code>
           </div>
@@ -835,7 +835,7 @@
           <div class="prompt-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span class="tag tag-green">2. Hỗ trợ tự gỡ lỗi (Debugging)</span>
-              <button class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
+              <button type="button" class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
             </div>
             <code class="prompt-text">"Đoạn code sau của tôi bị sai kết quả với bộ dữ liệu [input]. Đừng sửa trực tiếp code, hãy đặt câu hỏi gợi mở để tôi tự nhận ra lỗi logic ở dòng nào."</code>
           </div>
@@ -843,7 +843,7 @@
           <div class="prompt-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span class="tag tag-amber">3. Phản biện & Tối ưu mã nguồn</span>
-              <button class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
+              <button type="button" class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
             </div>
             <code class="prompt-text">"Đây là code tôi đã tự viết và chạy đúng. Hãy đánh giá độ phức tạp thời gian (Big-O) và gợi ý cách tối ưu cấu trúc dữ liệu sạch hơn."</code>
           </div>
@@ -857,185 +857,225 @@
     const PRESETS = {
       max: {
         label: "Đoạn mã C++ của sinh viên (Tìm phần tử lớn nhất trong mảng — đang có lỗi logic):",
-        code: `#include <iostream>
-using namespace std;
-
-int timMax(int a[], int n) {
-    int maxVal = 0; // Lỗi tiềm ẩn khi mảng toàn số âm
-    for (int i = 0; i <= n; i++) { // Lỗi vượt biên mảng (i <= n)
-        if (a[i] > maxVal) {
-            maxVal = a[i];
-        }
-    }
-    return maxVal;
-}`,
-        socraticHint: "1. Kiểm tra giá trị khởi tạo: Nếu mảng toàn số âm như {-5, -2, -9}, khởi tạo maxVal = 0 sẽ trả về kết quả nào?
-2. Kiểm tra điều kiện biên vòng lặp: Mảng có n phần tử thì chỉ số hợp lệ chạy từ 0 đến bao nhiêu? Xem lại i <= n.",
+        code: [
+          "#include <iostream>",
+          "using namespace std;",
+          "",
+          "int timMax(int a[], int n) {",
+          "    int maxVal = 0; // Lỗi tiềm ẩn khi mảng toàn số âm",
+          "    for (int i = 0; i <= n; i++) { // Lỗi vượt biên mảng (i <= n)",
+          "        if (a[i] > maxVal) {",
+          "            maxVal = a[i];",
+          "        }",
+          "    }",
+          "    return maxVal;",
+          "}"
+        ].join("\n"),
+        socraticHint: "1. Kiểm tra giá trị khởi tạo: Nếu mảng toàn số âm như {-5, -2, -9}, khởi tạo maxVal = 0 sẽ trả về kết quả nào?<br>2. Kiểm tra điều kiện biên vòng lặp: Mảng có n phần tử thì chỉ số hợp lệ chạy từ 0 đến bao nhiêu? Xem lại i &lt;= n.",
         passiveWarn: "Nếu AI đưa ngay đoạn mã đã sửa hoàn chỉnh, bạn sẽ bỏ qua bước tự phát hiện lỗi tràn biên và lỗi khởi tạo biến. Hãy dùng chế độ Socratic để tự sửa!",
-        checkPass: (code) => (code.includes('a[0]') || code.includes('INT_MIN')) && code.includes('i < n') && !code.includes('i <= n'),
-        passMsg: "Chính xác! Bạn đã tự sửa cả 2 lỗi: khởi tạo maxVal từ phần tử đầu/giá trị nhỏ nhất phù hợp và đổi điều kiện thành i < n."
+        checkPass: function(code) {
+          return (code.indexOf("a[0]") !== -1 || code.indexOf("INT_MIN") !== -1) &&
+                 code.indexOf("i < n") !== -1 &&
+                 code.indexOf("i <= n") === -1;
+        },
+        passMsg: "Chính xác! Bạn đã tự sửa cả 2 lỗi: khởi tạo maxVal từ phần tử đầu/giá trị nhỏ nhất phù hợp và đổi điều kiện thành i &lt; n."
       },
       prime: {
         label: "Đoạn mã C++ của sinh viên (Kiểm tra số nguyên tố n >= 2 — đang có lỗi logic):",
-        code: `#include <iostream>
-using namespace std;
-
-bool laSoNguyenTo(int n) {
-    if (n < 2) return true; // Lỗi: số < 2 không phải số nguyên tố
-    for (int i = 2; i < n; i++) {
-        if (n % i == 0) {
-            return true; // Lỗi: chia hết nghĩa là có ước, không phải số nguyên tố
-        }
-    }
-    return false; // Lỗi: không chia hết cho số nào mới là số nguyên tố
-}`,
-        socraticHint: "1. Kiểm tra trường hợp biên n < 2 (ví dụ n = 1 hoặc n = 0): Số nguyên tố được định nghĩa thế nào?
-2. Khi tìm thấy một ước i chia hết cho n (n % i == 0), kết luận đúng là nguyên tố hay hợp số?",
+        code: [
+          "#include <iostream>",
+          "using namespace std;",
+          "",
+          "bool laSoNguyenTo(int n) {",
+          "    if (n < 2) return true; // Lỗi: số < 2 không phải số nguyên tố",
+          "    for (int i = 2; i < n; i++) {",
+          "        if (n % i == 0) {",
+          "            return true; // Lỗi: chia hết nghĩa là có ước, không phải số nguyên tố",
+          "        }",
+          "    }",
+          "    return false; // Lỗi: không chia hết cho số nào mới là số nguyên tố",
+          "}"
+        ].join("\n"),
+        socraticHint: "1. Kiểm tra trường hợp biên n &lt; 2 (ví dụ n = 1 hoặc n = 0): Số nguyên tố được định nghĩa thế nào?<br>2. Khi tìm thấy một ước i chia hết cho n (n % i == 0), kết luận đúng là nguyên tố hay hợp số?",
         passiveWarn: "Nhận code sửa sẵn sẽ khiến bạn nhầm lẫn giữa điều kiện chia hết và không chia hết. Hãy thử tự đảo lại giá trị trả về true/false!",
-        checkPass: (code) => code.includes('n < 2') && code.includes('return false;') && code.includes('return true;'),
-        passMsg: "Rất tốt! Bạn đã điều chỉnh đúng điều kiện n < 2 và logic trả về true/false khi kiểm tra ước số."
+        checkPass: function(code) {
+          var compact = code.replace(/\s+/g, "");
+          return compact.indexOf("if(n<2)returnfalse;") !== -1 &&
+                 compact.indexOf("if(n%i==0){returnfalse;}") !== -1 ||
+                 (compact.indexOf("if(n<2)returnfalse;") !== -1 && compact.indexOf("returnfalse;") !== compact.lastIndexOf("returnfalse;"));
+        },
+        passMsg: "Rất tốt! Bạn đã điều chỉnh đúng điều kiện n &lt; 2 và logic trả về true/false khi kiểm tra ước số."
       },
       factorial: {
         label: "Đoạn mã C++ của sinh viên (Tính giai thừa n! — đang có lỗi logic):",
-        code: `#include <iostream>
-using namespace std;
-
-long long giaiThua(int n) {
-    long long gt = 0; // Lỗi: nhân với 0 sẽ luôn ra 0
-    for (int i = 1; i <= n; i++) {
-        gt = gt * i;
-    }
-    return gt;
-}`,
-        socraticHint: "1. Trong phép nhân dồn, giá trị khởi tạo ban đầu của biến tích lũy nên là bao nhiêu để không làm triệt tiêu kết quả?
-2. Thử tính tay với n = 0 và n = 3 theo đoạn mã hiện tại.",
+        code: [
+          "#include <iostream>",
+          "using namespace std;",
+          "",
+          "long long giaiThua(int n) {",
+          "    long long gt = 0; // Lỗi: nhân với 0 sẽ luôn ra 0",
+          "    for (int i = 1; i <= n; i++) {",
+          "        gt = gt * i;",
+          "    }",
+          "    return gt;",
+          "}"
+        ].join("\n"),
+        socraticHint: "1. Trong phép nhân dồn, giá trị khởi tạo ban đầu của biến tích lũy nên là bao nhiêu để không làm triệt tiêu kết quả?<br>2. Thử tính tay với n = 0 và n = 3 theo đoạn mã hiện tại.",
         passiveWarn: "Chép code mẫu sẽ làm bạn bỏ qua quy tắc khởi tạo phần tử đơn vị trong phép nhân (1 thay vì 0).",
-        checkPass: (code) => /long\s+long\s+gt\s*=\s*1\s*;/.test(code) || /gt\s*=\s*1\s*;/.test(code),
+        checkPass: function(code) {
+          var compact = code.replace(/\s+/g, "");
+          return compact.indexOf("gt=1;") !== -1 && compact.indexOf("gt=0;") === -1;
+        },
         passMsg: "Chuẩn xác! Bạn đã khởi tạo gt = 1 để phép nhân tích lũy hoạt động đúng."
       },
       custom: {
         label: "Chế độ Tự do: Dán hoặc viết đoạn mã bất kỳ (C++, Python, JS, SQL...) để phân tích:",
-        code: `// Dán đoạn mã của bạn vào đây để phân tích hoặc kiểm tra
-#include <iostream>
-using namespace std;
-
-int main() {
-    int a = 5;
-    if (a = 10) {
-        cout << "Bang 10";
-    }
-    return 0;
-}`,
+        code: [
+          "// Dán đoạn mã của bạn vào đây để phân tích hoặc kiểm tra",
+          "#include <iostream>",
+          "using namespace std;",
+          "",
+          "int main() {",
+          "    int a = 5;",
+          "    if (a = 10) {",
+          "        cout << \"Bang 10\";",
+          "    }",
+          "    return 0;",
+          "}"
+        ].join("\n"),
         socraticHint: "Hãy kiểm tra kỹ các biểu thức điều kiện, kiểu dữ liệu, phạm vi biến và các trường hợp biên (giá trị 0, số âm, mảng rỗng) trong đoạn mã của bạn.",
         passiveWarn: "Chế độ thụ động chỉ cảnh báo rủi ro phụ thuộc AI. Hãy chuyển sang Socratic hoặc nhập Gemini API Key để phân tích sâu đoạn mã tự do.",
-        checkPass: (code) => code.includes('a == 10') && !code.includes('if (a = 10)'),
+        checkPass: function(code) {
+          return code.indexOf("a == 10") !== -1 && code.indexOf("if (a = 10)") === -1;
+        },
         passMsg: "Tốt lắm! Bạn đã phát hiện và sửa phép gán (=) thành phép so sánh bằng (==) trong câu lệnh if."
       }
     };
 
-    let currentMode = 'socratic';
+    var currentMode = "socratic";
 
     function switchTab(tabId, btn) {
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      btn.classList.add('active');
+      var panels = document.querySelectorAll(".tab-panel");
+      for (var i = 0; i < panels.length; i++) {
+        panels[i].classList.remove("active");
+      }
+      var btns = document.querySelectorAll(".tab-btn");
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].classList.remove("active");
+      }
+      var target = document.getElementById(tabId);
+      if (target) {
+        target.classList.add("active");
+      }
+      if (btn) {
+        btn.classList.add("active");
+      }
     }
 
     function filterStudies() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const cat = document.getElementById('focusFilter').value;
-      const rows = document.querySelectorAll('#studiesTable tbody tr');
+      var q = document.getElementById("searchInput").value.toLowerCase();
+      var cat = document.getElementById("focusFilter").value;
+      var rows = document.querySelectorAll("#studiesTable tbody tr");
 
-      rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-        const rowCat = row.getAttribute('data-category');
-        const matchText = text.includes(q);
-        const matchCat = (cat === 'all' || rowCat === cat);
-        row.style.display = (matchText && matchCat) ? '' : 'none';
-      });
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var text = row.innerText.toLowerCase();
+        var rowCat = row.getAttribute("data-category");
+        var matchText = text.indexOf(q) !== -1;
+        var matchCat = (cat === "all" || rowCat === cat);
+        row.style.display = (matchText && matchCat) ? "" : "none";
+      }
     }
 
     function showBloomInfo(title, desc) {
-      const box = document.getElementById('bloomDetail');
-      box.innerHTML = `<strong>${title}:</strong> ${desc}`;
+      var box = document.getElementById("bloomDetail");
+      box.innerHTML = "<strong>" + title + ":</strong> " + desc;
     }
 
     function getApiKey() {
-      return (document.getElementById('geminiKeyInput').value || sessionStorage.getItem('demo_gemini_api_key') || '').trim();
+      var inputVal = document.getElementById("geminiKeyInput").value;
+      var storedVal = "";
+      try {
+        storedVal = sessionStorage.getItem("demo_gemini_api_key") || "";
+      } catch (e) {}
+      return (inputVal || storedVal).trim();
     }
 
     function saveSessionKey() {
-      const val = document.getElementById('geminiKeyInput').value.trim();
-      if (val) {
-        sessionStorage.setItem('demo_gemini_api_key', val);
-      } else {
-        sessionStorage.removeItem('demo_gemini_api_key');
-      }
+      var val = document.getElementById("geminiKeyInput").value.trim();
+      try {
+        if (val) {
+          sessionStorage.setItem("demo_gemini_api_key", val);
+        } else {
+          sessionStorage.removeItem("demo_gemini_api_key");
+        }
+      } catch (e) {}
       updateApiBadge();
     }
 
     function toggleKeyVisibility() {
-      const input = document.getElementById('geminiKeyInput');
-      input.type = input.type === 'password' ? 'text' : 'password';
+      var input = document.getElementById("geminiKeyInput");
+      input.type = (input.type === "password") ? "text" : "password";
     }
 
     function clearSessionKey() {
-      document.getElementById('geminiKeyInput').value = '';
-      sessionStorage.removeItem('demo_gemini_api_key');
+      document.getElementById("geminiKeyInput").value = "";
+      try {
+        sessionStorage.removeItem("demo_gemini_api_key");
+      } catch (e) {}
       updateApiBadge();
     }
 
     function updateApiBadge() {
-      const hasKey = Boolean(getApiKey());
-      const badge = document.getElementById('apiStatusBadge');
+      var hasKey = Boolean(getApiKey());
+      var badge = document.getElementById("apiStatusBadge");
       if (hasKey) {
-        badge.className = 'status-pill status-online';
-        badge.textContent = 'Đã gắn Gemini API Key (Phân tích động)';
+        badge.className = "status-pill status-online";
+        badge.textContent = "Đã gắn Gemini API Key (Phân tích động)";
       } else {
-        badge.className = 'status-pill status-offline';
-        badge.textContent = 'Chế độ Offline (Bài mẫu & Kiểm tra cơ bản)';
+        badge.className = "status-pill status-offline";
+        badge.textContent = "Chế độ Offline (Bài mẫu & Kiểm tra cơ bản)";
       }
     }
 
     function loadPresetProblem() {
-      const key = document.getElementById('problemSelect').value;
-      const preset = PRESETS[key] || PRESETS.max;
-      document.getElementById('codeLabel').textContent = preset.label;
-      document.getElementById('studentCode').value = preset.code;
+      var key = document.getElementById("problemSelect").value;
+      var preset = PRESETS[key] || PRESETS.max;
+      document.getElementById("codeLabel").textContent = preset.label;
+      document.getElementById("studentCode").value = preset.code;
     }
 
     function setTutorMode(mode) {
       currentMode = mode;
-      const btnS = document.getElementById('btnSocratic');
-      const btnP = document.getElementById('btnPassive');
-      const fill = document.getElementById('meterFill');
-      const score = document.getElementById('autonomyScore');
-      const note = document.getElementById('autonomyNote');
+      var btnS = document.getElementById("btnSocratic");
+      var btnP = document.getElementById("btnPassive");
+      var fill = document.getElementById("meterFill");
+      var score = document.getElementById("autonomyScore");
+      var note = document.getElementById("autonomyNote");
 
-      if (mode === 'socratic') {
-        btnS.className = 'mode-btn active-socratic';
-        btnP.className = 'mode-btn';
-        fill.style.width = '85%';
-        fill.style.background = '#0f766e';
-        score.innerText = '85% (Tốt)';
-        score.style.color = '#0f766e';
-        note.innerText = 'Sinh viên tự phân tích gợi ý và chỉnh sửa mã nguồn thay vì sao chép kết quả cuối cùng.';
+      if (mode === "socratic") {
+        btnS.className = "mode-btn active-socratic";
+        btnP.className = "mode-btn";
+        fill.style.width = "85%";
+        fill.style.background = "#0f766e";
+        score.innerText = "85% (Tốt)";
+        score.style.color = "#0f766e";
+        note.innerText = "Sinh viên tự phân tích gợi ý và chỉnh sửa mã nguồn thay vì sao chép kết quả cuối cùng.";
       } else {
-        btnS.className = 'mode-btn';
-        btnP.className = 'mode-btn active-passive';
-        fill.style.width = '20%';
-        fill.style.background = '#dc2626';
-        score.innerText = '20% (Nguy cơ phụ thuộc cao)';
-        score.style.color = '#dc2626';
-        note.innerText = 'Cảnh báo: Yêu cầu AI làm hộ/viết lại toàn bộ code làm suy giảm tư duy phản biện và tính trung thực học thuật.';
+        btnS.className = "mode-btn";
+        btnP.className = "mode-btn active-passive";
+        fill.style.width = "20%";
+        fill.style.background = "#dc2626";
+        score.innerText = "20% (Nguy cơ phụ thuộc cao)";
+        score.style.color = "#dc2626";
+        note.innerText = "Cảnh báo: Yêu cầu AI làm hộ/viết lại toàn bộ code làm suy giảm tư duy phản biện và tính trung thực học thuật.";
       }
     }
 
-    function appendMessage(html, isWarn = false) {
-      const chat = document.getElementById('chatBox');
-      const div = document.createElement('div');
-      div.className = isWarn ? 'msg msg-warn' : 'msg msg-ai';
+    function appendMessage(html, isWarn) {
+      var chat = document.getElementById("chatBox");
+      var div = document.createElement("div");
+      div.className = isWarn ? "msg msg-warn" : "msg msg-ai";
       div.innerHTML = html;
       chat.appendChild(div);
       chat.scrollTop = chat.scrollHeight;
@@ -1043,98 +1083,105 @@ int main() {
     }
 
     function escapeHtml(str) {
-      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\n/g, "<br>");
     }
 
     async function callGeminiAPI(promptText, systemInstruction) {
-      const apiKey = getApiKey();
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      var apiKey = getApiKey();
+      var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(apiKey);
+      var response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemInstruction }] },
-          contents: [{ role: 'user', parts: [{ text: promptText }] }],
+          contents: [{ role: "user", parts: [{ text: promptText }] }],
           generationConfig: { temperature: 0.4 }
         })
       });
-      const data = await response.json();
+      var data = await response.json();
       if (!response.ok) {
-        throw new Error(data.error?.message || `HTTP ${response.status}`);
+        var errMsg = (data && data.error && data.error.message) ? data.error.message : ("HTTP " + response.status);
+        throw new Error(errMsg);
       }
-      return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Không nhận được phản hồi từ mô hình.';
+      if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+        return data.candidates[0].content.parts[0].text;
+      }
+      return "Không nhận được phản hồi từ mô hình.";
+    }
+
+    function countChar(str, ch) {
+      var count = 0;
+      for (var i = 0; i < str.length; i++) {
+        if (str.charAt(i) === ch) count++;
+      }
+      return count;
     }
 
     async function analyzeCode() {
-      const code = document.getElementById('studentCode').value;
-      const presetKey = document.getElementById('problemSelect').value;
-      const preset = PRESETS[presetKey] || PRESETS.custom;
-      const apiKey = getApiKey();
+      var code = document.getElementById("studentCode").value;
+      var presetKey = document.getElementById("problemSelect").value;
+      var preset = PRESETS[presetKey] || PRESETS.custom;
+      var apiKey = getApiKey();
 
-      if (currentMode === 'passive') {
-        appendMessage(`<strong>Cảnh báo Sư phạm (Chế độ Thụ động):</strong>
-${preset.passiveWarn}`, true);
+      if (currentMode === "passive") {
+        appendMessage("<strong>Cảnh báo Sư phạm (Chế độ Thụ động):</strong><br>" + preset.passiveWarn, true);
         return;
       }
 
       if (apiKey) {
-        const btnA = document.getElementById('btnAnalyze');
+        var btnA = document.getElementById("btnAnalyze");
         btnA.disabled = true;
-        const loadingMsg = appendMessage('<strong>Trợ giảng Socratic (Gemini):</strong> Đang phân tích đoạn mã của bạn...');
+        var loadingMsg = appendMessage("<strong>Trợ giảng Socratic (Gemini):</strong> Đang phân tích đoạn mã của bạn...", false);
         try {
-          const sysPrompt = "Bạn là trợ giảng lập trình theo phương pháp Socratic cho sinh viên CNTT. Tuyệt đối KHÔNG viết đoạn code giải pháp hoàn chỉnh thay sinh viên. Hãy chỉ ra tối đa 2-3 câu hỏi gợi mở ngắn gọn, rõ ràng bằng tiếng Việt để sinh viên tự tìm lỗi logic, lỗi biên hoặc điểm cần tối ưu.";
-          const reply = await callGeminiAPI(`Hãy phân tích gợi mở đoạn mã sau:
-\`\`\`
-${code}
-\`\`\``, sysPrompt);
-          loadingMsg.innerHTML = `<strong>Trợ giảng Socratic (Gemini):</strong>
-${escapeHtml(reply)}`;
+          var sysPrompt = "Bạn là trợ giảng lập trình theo phương pháp Socratic cho sinh viên CNTT. Tuyệt đối KHÔNG viết đoạn code giải pháp hoàn chỉnh thay sinh viên. Hãy chỉ ra tối đa 2-3 câu hỏi gợi mở ngắn gọn, rõ ràng bằng tiếng Việt để sinh viên tự tìm lỗi logic, lỗi biên hoặc điểm cần tối ưu.";
+          var reply = await callGeminiAPI("Hãy phân tích gợi mở đoạn mã sau:\n" + code, sysPrompt);
+          loadingMsg.innerHTML = "<strong>Trợ giảng Socratic (Gemini):</strong><br>" + escapeHtml(reply);
         } catch (err) {
-          loadingMsg.className = 'msg msg-warn';
-          loadingMsg.innerHTML = `<strong>Lỗi gọi Gemini API:</strong> ${escapeHtml(err.message)}. Bạn có thể kiểm tra lại API Key hoặc dùng chế độ Offline.`;
+          loadingMsg.className = "msg msg-warn";
+          loadingMsg.innerHTML = "<strong>Lỗi gọi Gemini API:</strong> " + escapeHtml(err.message) + ". Bạn có thể kiểm tra lại API Key hoặc dùng chế độ Offline.";
         } finally {
           btnA.disabled = false;
         }
         return;
       }
 
-      // Offline fallback
-      const extraChecks = [];
-      const openParen = (code.match(/\(/g) || []).length;
-      const closeParen = (code.match(/\)/g) || []).length;
-      const openBrace = (code.match(/\{/g) || []).length;
-      const closeBrace = (code.match(/\}/g) || []).length;
-      if (openParen !== closeParen) extraChecks.push(`Số dấu ngoặc tròn '(' (${openParen}) và ')' (${closeParen}) chưa khớp.`);
-      if (openBrace !== closeBrace) extraChecks.push(`Số dấu ngoặc nhọn '{' (${openBrace}) và '}' (${closeBrace}) chưa khớp.`);
+      var extraChecks = [];
+      var openParen = countChar(code, "(");
+      var closeParen = countChar(code, ")");
+      var openBrace = countChar(code, "{");
+      var closeBrace = countChar(code, "}");
+      if (openParen !== closeParen) {
+        extraChecks.push("Số dấu ngoặc tròn '(' (" + openParen + ") và ')' (" + closeParen + ") chưa khớp.");
+      }
+      if (openBrace !== closeBrace) {
+        extraChecks.push("Số dấu ngoặc nhọn '{' (" + openBrace + ") và '}' (" + closeBrace + ") chưa khớp.");
+      }
 
-      const extraText = extraChecks.length ? `
-Kiểm tra cú pháp nhanh: ${extraChecks.join(' ')}` : '';
-      appendMessage(`<strong>Gợi ý Socratic (Offline - Không đưa code mẫu):</strong>
-${preset.socraticHint}${extraText}`);
+      var extraText = extraChecks.length ? ("<br><em>Kiểm tra cú pháp nhanh:</em> " + extraChecks.join(" ")) : "";
+      appendMessage("<strong>Gợi ý Socratic (Offline - Không đưa code mẫu):</strong><br>" + preset.socraticHint + extraText, false);
     }
 
     async function checkFix() {
-      const code = document.getElementById('studentCode').value;
-      const presetKey = document.getElementById('problemSelect').value;
-      const preset = PRESETS[presetKey] || PRESETS.custom;
-      const apiKey = getApiKey();
+      var code = document.getElementById("studentCode").value;
+      var presetKey = document.getElementById("problemSelect").value;
+      var preset = PRESETS[presetKey] || PRESETS.custom;
+      var apiKey = getApiKey();
 
       if (apiKey) {
-        const btnC = document.getElementById('btnCheck');
+        var btnC = document.getElementById("btnCheck");
         btnC.disabled = true;
-        const loadingMsg = appendMessage('<strong>Trợ giảng Socratic (Gemini):</strong> Đang đánh giá phần tự sửa của bạn...');
+        var loadingMsg = appendMessage("<strong>Trợ giảng Socratic (Gemini):</strong> Đang đánh giá phần tự sửa của bạn...", false);
         try {
-          const sysPrompt = "Bạn là trợ giảng lập trình. Hãy đánh giá xem sinh viên đã sửa đúng lỗi logic/cú pháp chưa bằng tiếng Việt ngắn gọn. Nếu còn lỗi, chỉ gợi ý hướng sửa tiếp, KHÔNG đưa code hoàn chỉnh.";
-          const reply = await callGeminiAPI(`Bối cảnh: ${preset.label}
-Code hiện tại của sinh viên:
-\`\`\`
-${code}
-\`\`\``, sysPrompt);
-          loadingMsg.innerHTML = `<strong>Đánh giá bài tự sửa (Gemini):</strong>
-${escapeHtml(reply)}`;
+          var sysPrompt = "Bạn là trợ giảng lập trình. Hãy đánh giá xem sinh viên đã sửa đúng lỗi logic/cú pháp chưa bằng tiếng Việt ngắn gọn. Nếu còn lỗi, chỉ gợi ý hướng sửa tiếp, KHÔNG đưa code hoàn chỉnh.";
+          var reply = await callGeminiAPI("Bối cảnh: " + preset.label + "\nCode hiện tại của sinh viên:\n" + code, sysPrompt);
+          loadingMsg.innerHTML = "<strong>Đánh giá bài tự sửa (Gemini):</strong><br>" + escapeHtml(reply);
         } catch (err) {
-          loadingMsg.className = 'msg msg-warn';
-          loadingMsg.innerHTML = `<strong>Lỗi gọi Gemini API:</strong> ${escapeHtml(err.message)}.`;
+          loadingMsg.className = "msg msg-warn";
+          loadingMsg.innerHTML = "<strong>Lỗi gọi Gemini API:</strong> " + escapeHtml(err.message);
         } finally {
           btnC.disabled = false;
         }
@@ -1142,53 +1189,58 @@ ${escapeHtml(reply)}`;
       }
 
       if (preset.checkPass(code)) {
-        document.getElementById('meterFill').style.width = '100%';
-        document.getElementById('autonomyScore').innerText = '100% (Xuất sắc)';
-        appendMessage(`<strong>Chính xác!</strong>
-${preset.passMsg}`);
+        document.getElementById("meterFill").style.width = "100%";
+        document.getElementById("autonomyScore").innerText = "100% (Xuất sắc)";
+        appendMessage("<strong>Chính xác!</strong><br>" + preset.passMsg, false);
       } else {
-        appendMessage(`<strong>Chưa hoàn tất (Kiểm tra Offline):</strong>
-Đoạn mã của bạn chưa thỏa mãn điều kiện kiểm tra mẫu của bài này. Hãy rà soát lại các gợi ý Socratic hoặc gắn Gemini API Key để chấm động cho mọi bài toán.`);
+        appendMessage("<strong>Chưa hoàn tất (Kiểm tra Offline):</strong><br>Đoạn mã của bạn chưa thỏa mãn điều kiện kiểm tra mẫu của bài này. Hãy rà soát lại các gợi ý Socratic hoặc gắn Gemini API Key để chấm động cho mọi bài toán.", false);
       }
     }
 
     function evaluateQuiz() {
-      let total = 0;
-      let answered = 0;
-      for (let i = 1; i <= 3; i++) {
-        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      var total = 0;
+      var answered = 0;
+      for (var i = 1; i <= 3; i++) {
+        var sel = document.querySelector('input[name="q' + i + '"]:checked');
         if (sel) {
           total += parseInt(sel.value, 10);
           answered++;
         }
       }
-      const res = document.getElementById('quizResult');
+      var res = document.getElementById("quizResult");
       if (answered < 3) {
         res.innerHTML = '<span style="color:#dc2626;">Vui lòng trả lời đầy đủ cả 3 câu hỏi trước khi xem kết quả.</span>';
         return;
       }
       if (total >= 5) {
-        res.innerHTML = `<div class="msg msg-ai"><strong>Điểm số: ${total}/6 — Người học Chủ động & Phản biện:</strong> Bạn đang khai thác AI đúng định hướng "đồng tác giả" hỗ trợ tư duy mà vẫn giữ vững năng lực lập trình cốt lõi.</div>`;
+        res.innerHTML = '<div class="msg msg-ai"><strong>Điểm số: ' + total + '/6 — Người học Chủ động & Phản biện:</strong> Bạn đang khai thác AI đúng định hướng "đồng tác giả" hỗ trợ tư duy mà vẫn giữ vững năng lực lập trình cốt lõi.</div>';
       } else if (total >= 3) {
-        res.innerHTML = `<div class="msg msg-ai" style="border-left-color:#d97706;"><strong>Điểm số: ${total}/6 — Mức độ Cân bằng (Cần lưu ý):</strong> Bạn có sử dụng AI để hiểu bài nhưng đôi lúc vẫn dựa vào mã nguồn có sẵn. Hãy ưu tiên tự viết nháp trước khi hỏi AI.</div>`;
+        res.innerHTML = '<div class="msg msg-ai" style="border-left-color:#d97706;"><strong>Điểm số: ' + total + '/6 — Mức độ Cân bằng (Cần lưu ý):</strong> Bạn có sử dụng AI để hiểu bài nhưng đôi lúc vẫn dựa vào mã nguồn có sẵn. Hãy ưu tiên tự viết nháp trước khi hỏi AI.</div>';
       } else {
-        res.innerHTML = `<div class="msg msg-warn"><strong>Điểm số: ${total}/6 — Nguy cơ Phụ thuộc Kỹ thuật Cao:</strong> Việc sao chép trực tiếp mã nguồn từ AI dễ làm suy giảm tư duy thuật toán và vi phạm tính trung thực học thuật. Hãy áp dụng thử các mẫu Prompt bên cạnh!</div>`;
+        res.innerHTML = '<div class="msg msg-warn"><strong>Điểm số: ' + total + '/6 — Nguy cơ Phụ thuộc Kỹ thuật Cao:</strong> Việc sao chép trực tiếp mã nguồn từ AI dễ làm suy giảm tư duy thuật toán và vi phạm tính trung thực học thuật. Hãy áp dụng thử các mẫu Prompt bên cạnh!</div>';
       }
     }
 
     function copyPrompt(btn) {
-      const codeEl = btn.parentElement.nextElementSibling;
-      navigator.clipboard.writeText(codeEl.innerText.replace(/^"|"$/g, ''));
-      const old = btn.innerText;
-      btn.innerText = 'Đã chép!';
-      setTimeout(() => btn.innerText = old, 1500);
+      var codeEl = btn.parentElement.nextElementSibling;
+      var text = codeEl.innerText.replace(/^"|"$/g, "");
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text);
+      }
+      var old = btn.innerText;
+      btn.innerText = "Đã chép!";
+      setTimeout(function() {
+        btn.innerText = old;
+      }, 1500);
     }
 
     // Khởi tạo ban đầu
-    const savedKey = sessionStorage.getItem('demo_gemini_api_key');
-    if (savedKey) {
-      document.getElementById('geminiKeyInput').value = savedKey;
-    }
+    try {
+      var savedKey = sessionStorage.getItem("demo_gemini_api_key");
+      if (savedKey) {
+        document.getElementById("geminiKeyInput").value = savedKey;
+      }
+    } catch (e) {}
     updateApiBadge();
     loadPresetProblem();
   </script>
