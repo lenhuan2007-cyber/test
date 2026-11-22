@@ -1092,7 +1092,9 @@
 
 async function callGeminiAPI(promptText, systemInstruction) {
   var apiKey = getApiKey();
-  var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + encodeURIComponent(apiKey);
+  // Đổi sang model gemini-2.5-flash hợp lệ
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(apiKey);
+  
   var response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -1103,24 +1105,29 @@ async function callGeminiAPI(promptText, systemInstruction) {
     })
   });
 
-    function countChar(str, ch) {
-      var count = 0;
-      for (var i = 0; i < str.length; i++) {
-        if (str.charAt(i) === ch) count++;
-      }
-      return count;
-    }
+  var data = await response.json();
 
-    async function analyzeCode() {
-      var code = document.getElementById("studentCode").value;
-      var presetKey = document.getElementById("problemSelect").value;
-      var preset = PRESETS[presetKey] || PRESETS.custom;
-      var apiKey = getApiKey();
+  // Bắt lỗi từ phía Google API (ví dụ: sai API key, hết quota...)
+  if (!response.ok) {
+    var errMsg = (data.error && data.error.message) ? data.error.message : ("HTTP " + response.status);
+    throw new Error(errMsg);
+  }
 
-      if (currentMode === "passive") {
-        appendMessage("<strong>Cảnh báo Sư phạm (Chế độ Thụ động):</strong><br>" + preset.passiveWarn, true);
-        return;
-      }
+  // Trích xuất nội dung phản hồi từ Gemini
+  if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
+    return data.candidates[0].content.parts[0].text;
+  }
+
+  throw new Error("Không nhận được phản hồi hợp lệ từ Gemini.");
+}
+
+function countChar(str, ch) {
+  var count = 0;
+  for (var i = 0; i < str.length; i++) {
+    if (str.charAt(i) === ch) count++;
+  }
+  return count;
+}
 
       if (apiKey) {
         var btnA = document.getElementById("btnAnalyze");
