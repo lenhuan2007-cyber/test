@@ -1092,38 +1092,16 @@
 
 async function callGeminiAPI(promptText, systemInstruction) {
   var apiKey = getApiKey();
-  // Danh sách các model ưu tiên (nếu model đầu quá tải sẽ tự chuyển sang model sau)
-  var models = ["gemini-3.8-flash", "gemini-3.8-flash-lite"];
-  var lastError = "";
-
-  for (var i = 0; i < models.length; i++) {
-    var url = "https://generativelanguage.googleapis.com/v1beta/models/" + models[i] + ":generateContent?key=" + encodeURIComponent(apiKey);
-    var response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: systemInstruction }] },
-        contents: [{ role: "user", parts: [{ text: promptText }] }],
-        generationConfig: { temperature: 0.4 }
-      })
-    });
-
-    var data = await response.json();
-    if (response.ok) {
-      if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
-        return data.candidates[0].content.parts[0].text;
-      }
-      return "Không nhận được phản hồi từ mô hình.";
-    }
-
-    lastError = (data && data.error && data.error.message) ? data.error.message : ("HTTP " + response.status);
-    // Nếu không phải lỗi quá tải (503) hoặc giới hạn lượt gọi (429) thì dừng luôn và báo lỗi
-    if (response.status !== 503 && response.status !== 429) {
-      break;
-    }
-  }
-  throw new Error(lastError);
-}
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + encodeURIComponent(apiKey);
+  var response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: systemInstruction }] },
+      contents: [{ role: "user", parts: [{ text: promptText }] }],
+      generationConfig: { temperature: 0.4 }
+    })
+  });
 
     function countChar(str, ch) {
       var count = 0;
