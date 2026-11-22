@@ -1090,37 +1090,46 @@
         .replace(/\n/g, "<br>");
     }
 
-    async function callGeminiAPI(promptText, systemInstruction) {
-      var apiKey = getApiKey();
-      var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + encodeURIComponent(apiKey);
+async function callGeminiAPI(promptText, systemInstruction) {
+  var apiKey = getApiKey();
+  var models = ["gemini-3.8-flash-lite", "gemini-3.8-flash"];
+  var lastError = null;
+
+  for (var m = 0; m < models.length; m++) {
+    var url = "https://generativelanguage.googleapis.com/v1beta/models/" + models[m] + ":generateContent?key=" + encodeURIComponent(apiKey);
+    try {
+      var controller = new AbortController();
+      var timeoutId = setTimeout(function() { controller.abort(); }, 15000);
+
       var response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemInstruction }] },
           contents: [{ role: "user", parts: [{ text: promptText }] }],
-          generationConfig: { temperature: 0.4 }
+          generationConfig: { temperature: 0.4, maxOutputTokens: 450 }
         })
       });
+      clearTimeout(timeoutId);
+
       var data = await response.json();
       if (!response.ok) {
         var errMsg = (data && data.error && data.error.message) ? data.error.message : ("HTTP " + response.status);
-        throw new Error(errMsg);
+        lastError = new Error(errMsg);
+        continue;
       }
+
       if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
         return data.candidates[0].content.parts[0].text;
       }
-      return "Không nhận được phản hồi từ mô hình.";
+    } catch (err) {
+      lastError = (err.name === "AbortError") ? new Error("Hết thời gian chờ (15s).") : err;
     }
+  }
 
-    function countChar(str, ch) {
-      var count = 0;
-      for (var i = 0; i < str.length; i++) {
-        if (str.charAt(i) === ch) count++;
-      }
-      return count;
-    }
-
+  throw lastError || new Error("Máy chủ AI đang bận, vui lòng thử lại sau.");
+}
     async function analyzeCode() {
       var code = document.getElementById("studentCode").value;
       var presetKey = document.getElementById("problemSelect").value;
