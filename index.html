@@ -85,7 +85,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     .tab-list {
@@ -154,13 +154,6 @@
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 2rem;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1.25rem;
       margin-bottom: 2rem;
     }
@@ -262,7 +255,6 @@
     .tag-blue { background: #dbeafe; color: #1e40af; }
     .tag-green { background: #dcfce7; color: #166534; }
     .tag-amber { background: #fef3c7; color: #92400e; }
-    .tag-red { background: #fee2e2; color: #991b1b; }
 
     /* UNESCO & Bloom */
     .pillar-card {
@@ -298,10 +290,31 @@
       transform: scale(1.01);
     }
 
+    /* Progress header */
+    .tutor-header-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .progress-pill {
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 0.84rem;
+      font-weight: 700;
+      padding: 0.38rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid #bfdbfe;
+      white-space: nowrap;
+    }
+
     /* Tutor Sandbox */
     .tutor-layout {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.12fr 0.88fr;
       gap: 1.5rem;
     }
 
@@ -311,22 +324,30 @@
       }
     }
 
+    .toolbar-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+      margin-bottom: 0.85rem;
+    }
+
     .mode-switch {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.4rem;
       background: #e2e8f0;
-      padding: 0.3rem;
+      padding: 0.25rem;
       border-radius: 10px;
-      margin-bottom: 1rem;
+      flex: 1 1 280px;
     }
 
     .mode-btn {
       flex: 1;
       border: none;
-      padding: 0.55rem;
+      padding: 0.5rem;
       border-radius: 8px;
       font-weight: 600;
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       cursor: pointer;
       background: transparent;
       color: #475569;
@@ -342,9 +363,20 @@
       color: white;
     }
 
+    .preset-select {
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.86rem;
+      font-weight: 600;
+      background: #f1f5f9;
+      color: #0f172a;
+      flex: 1 1 260px;
+    }
+
     textarea.code-box {
       width: 100%;
-      min-height: 190px;
+      min-height: 220px;
       font-family: 'Consolas', 'Courier New', monospace;
       font-size: 0.88rem;
       background: #0f172a;
@@ -360,28 +392,36 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      padding: 0.6rem 1.15rem;
+      padding: 0.55rem 0.95rem;
       border-radius: 8px;
       border: none;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.86rem;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, opacity 0.2s;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .btn-primary { background: var(--primary); color: white; }
-    .btn-primary:hover { background: #1d4ed8; }
+    .btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+    .btn-amber { background: #d97706; color: white; }
+    .btn-amber:hover:not(:disabled) { background: #b45309; }
     .btn-secondary { background: #e2e8f0; color: #1e293b; }
-    .btn-secondary:hover { background: #cbd5e1; }
+    .btn-secondary:hover:not(:disabled) { background: #cbd5e1; }
     .btn-success { background: var(--secondary); color: white; }
+    .btn-success:hover:not(:disabled) { background: #115e59; }
 
     .chat-box {
       background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 1rem;
-      min-height: 280px;
-      max-height: 420px;
+      min-height: 335px;
+      max-height: 490px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -392,12 +432,19 @@
       padding: 0.85rem 1rem;
       border-radius: 10px;
       font-size: 0.9rem;
+      line-height: 1.55;
     }
 
     .msg-ai {
       background: white;
       border: 1px solid var(--border);
       border-left: 4px solid var(--secondary);
+    }
+
+    .msg-hint2 {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid #d97706;
     }
 
     .msg-warn {
@@ -456,7 +503,6 @@
       border-radius: 8px;
       padding: 0.85rem;
       margin-bottom: 0.85rem;
-      position: relative;
     }
 
     .prompt-text {
@@ -485,10 +531,10 @@
 
   <nav class="tabs">
     <div class="tab-list">
-      <button class="tab-btn active" onclick="switchTab('overview', this)">1. Tổng quan Bài báo</button>
-      <button class="tab-btn" onclick="switchTab('framework', this)">2. Khung UNESCO & Bloom</button>
-      <button class="tab-btn" onclick="switchTab('tutor', this)">3. Trợ giảng AI (Demo)</button>
-      <button class="tab-btn" onclick="switchTab('ethics', this)">4. Quy tắc & Tự đánh giá</button>
+      <button type="button" class="tab-btn active" onclick="switchTab('overview', this)">1. Tổng quan Bài báo</button>
+      <button type="button" class="tab-btn" onclick="switchTab('framework', this)">2. Khung UNESCO & Bloom</button>
+      <button type="button" class="tab-btn" onclick="switchTab('tutor', this)">3. Trợ giảng AI (Demo)</button>
+      <button type="button" class="tab-btn" onclick="switchTab('ethics', this)">4. Quy tắc & Tự đánh giá</button>
     </div>
   </nav>
 
@@ -654,36 +700,42 @@
 
     <!-- TAB 3: TRỢ GIẢNG AI (DEMO) -->
     <section id="tutor" class="tab-panel">
-      <h2 class="section-title">Mô phỏng Trợ giảng ảo Lập trình (Socratic AI Tutor)</h2>
-      <p class="section-desc">Minh họa giải pháp đề xuất của bài báo: Chuyển đổi AI từ công cụ "làm hộ" sang "đồng tác giả gợi mở tư duy".</p>
+      <div class="tutor-header-row">
+        <div>
+          <h2 class="section-title">Mô phỏng Trợ giảng ảo Lập trình (Socratic AI Tutor)</h2>
+          <p class="section-desc" style="margin-bottom:0;">Hệ thống mô phỏng phản hồi sư phạm Socratic cho 07 bài tập lập trình (C++, OOP, SQL) và chấm bài tự động ngay trên trình duyệt.</p>
+        </div>
+        <span id="solvedBadge" class="progress-pill">Tiến độ hoàn thành: 0 / 7 bài</span>
+      </div>
 
       <div class="tutor-layout">
         <div class="card">
-          <div class="mode-switch">
-            <button id="btnSocratic" class="mode-btn active-socratic" onclick="setTutorMode('socratic')">Chế độ Socratic (Gợi ý có kiểm soát)</button>
-            <button id="btnPassive" class="mode-btn" onclick="setTutorMode('passive')">Chế độ Thụ động (Chép code mẫu)</button>
+          <div class="toolbar-row">
+            <div class="mode-switch">
+              <button type="button" id="btnSocratic" class="mode-btn active-socratic" onclick="setTutorMode('socratic')">Chế độ Socratic</button>
+              <button type="button" id="btnPassive" class="mode-btn" onclick="setTutorMode('passive')">Chế độ Thụ động</button>
+            </div>
+            <select id="problemSelect" class="preset-select" onchange="loadPresetProblem()">
+              <option value="max">Bài 1 (C++): Tìm Max mảng</option>
+              <option value="prime">Bài 2 (C++): Kiểm tra số nguyên tố</option>
+              <option value="factorial">Bài 3 (C++): Tính giai thừa n!</option>
+              <option value="palindrome">Bài 4 (C++): Kiểm tra chuỗi đối xứng</option>
+              <option value="binarySearch">Bài 5 (C++): Tìm kiếm nhị phân</option>
+              <option value="fractionOOP">Bài 6 (C++ OOP): Cộng hai Phân số</option>
+              <option value="sqlGroup">Bài 7 (SQL): Lọc nhóm điểm trung bình</option>
+            </select>
           </div>
 
-          <label style="font-size:0.88rem; font-weight:600; display:block; margin-bottom:0.4rem;">
-            Đoạn mã C++ của sinh viên (Tìm phần tử lớn nhất trong mảng — đang có lỗi logic):
+          <label id="codeLabel" style="font-size:0.88rem; font-weight:600; display:block; margin-bottom:0.45rem;">
+            Bài 1 (C++) — Tìm phần tử lớn nhất trong mảng (đang có 2 lỗi logic):
           </label>
-          <textarea id="studentCode" class="code-box">#include &lt;iostream&gt;
-using namespace std;
+          <textarea id="studentCode" class="code-box" spellcheck="false"></textarea>
 
-int timMax(int a[], int n) {
-    int maxVal = 0; // Lỗi tiềm ẩn khi mảng toàn số âm
-    for (int i = 0; i <= n; i++) { // Lỗi vượt biên mảng (i <= n)
-        if (a[i] > maxVal) {
-            maxVal = a[i];
-        }
-    }
-    return maxVal;
-}</textarea>
-
-          <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
-            <button class="btn btn-primary" onclick="analyzeCode()">Phân tích & Gợi ý gỡ lỗi</button>
-            <button class="btn btn-success" onclick="checkFix()">Kiểm tra bài tự sửa</button>
-            <button class="btn btn-secondary" onclick="resetCode()">Khôi phục code lỗi</button>
+          <div style="display:flex; flex-wrap:wrap; gap:0.55rem;">
+            <button type="button" class="btn btn-primary" onclick="analyzeCode()">Phân tích & Gợi ý (Bước 1)</button>
+            <button type="button" class="btn btn-amber" onclick="deepHint()">Gợi ý sâu hơn (Bước 2)</button>
+            <button type="button" class="btn btn-success" onclick="checkFix()">Kiểm tra bài tự sửa</button>
+            <button type="button" class="btn btn-secondary" onclick="loadPresetProblem()">Khôi phục code mẫu</button>
           </div>
 
           <div class="autonomy-meter">
@@ -701,10 +753,13 @@ int timMax(int a[], int n) {
         </div>
 
         <div class="card">
-          <h3>Phản hồi từ Trợ giảng AI</h3>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+            <h3 style="margin-bottom:0;">Phản hồi từ Trợ giảng AI</h3>
+            <button type="button" class="btn btn-secondary" style="padding:0.3rem 0.65rem; font-size:0.78rem;" onclick="clearChat()">Xóa hội thoại</button>
+          </div>
           <div id="chatBox" class="chat-box">
             <div class="msg msg-ai">
-              <strong>Trợ giảng Socratic:</strong> Chào bạn! Hãy thử chạy kiểm tra đoạn hàm <code>timMax</code> bên trái. Mình sẽ không đưa ngay code sửa sẵn mà sẽ đặt câu hỏi gợi mở để bạn tự phát hiện <strong>2 lỗi logic</strong> quan trọng nhé!
+              <strong>Trợ giảng Socratic:</strong> Chào bạn! Hãy chọn một trong <strong>07 bài tập mẫu</strong> bên trái, nhấn <em>"Phân tích & Gợi ý (Bước 1)"</em> để nhận câu hỏi dẫn dắt, sau đó tự sửa code và nhấn <em>"Kiểm tra bài tự sửa"</em>.
             </div>
           </div>
         </div>
@@ -745,7 +800,7 @@ int timMax(int a[], int n) {
             </div>
           </div>
 
-          <button class="btn btn-primary" onclick="evaluateQuiz()">Xem kết quả đánh giá</button>
+          <button type="button" class="btn btn-primary" onclick="evaluateQuiz()">Xem kết quả đánh giá</button>
           <div id="quizResult" style="margin-top:1rem; font-size:0.92rem;"></div>
         </div>
 
@@ -756,7 +811,7 @@ int timMax(int a[], int n) {
           <div class="prompt-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span class="tag tag-blue">1. Gợi ý thuật toán (Không xin code)</span>
-              <button class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
+              <button type="button" class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
             </div>
             <code class="prompt-text">"Tôi đang giải bài toán [mô tả bài toán]. Hãy đóng vai giảng viên hướng dẫn, chỉ gợi ý cho tôi 3 bước tư duy thuật toán và các trường hợp biên cần lưu ý, tuyệt đối không viết code mẫu."</code>
           </div>
@@ -764,7 +819,7 @@ int timMax(int a[], int n) {
           <div class="prompt-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span class="tag tag-green">2. Hỗ trợ tự gỡ lỗi (Debugging)</span>
-              <button class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
+              <button type="button" class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
             </div>
             <code class="prompt-text">"Đoạn code sau của tôi bị sai kết quả với bộ dữ liệu [input]. Đừng sửa trực tiếp code, hãy đặt câu hỏi gợi mở để tôi tự nhận ra lỗi logic ở dòng nào."</code>
           </div>
@@ -772,7 +827,7 @@ int timMax(int a[], int n) {
           <div class="prompt-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span class="tag tag-amber">3. Phản biện & Tối ưu mã nguồn</span>
-              <button class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
+              <button type="button" class="btn btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.78rem;" onclick="copyPrompt(this)">Sao chép</button>
             </div>
             <code class="prompt-text">"Đây là code tôi đã tự viết và chạy đúng. Hãy đánh giá độ phức tạp thời gian (Big-O) và gợi ý cách tối ưu cấu trúc dữ liệu sạch hơn."</code>
           </div>
@@ -783,148 +838,423 @@ int timMax(int a[], int n) {
   </main>
 
   <script>
+    const PRESETS = {
+      max: {
+        title: "Bài 1 (C++): Tìm Max mảng",
+        label: "Bài 1 (C++) — Tìm phần tử lớn nhất trong mảng (đang có 2 lỗi logic):",
+        code: [
+          "#include <iostream>",
+          "using namespace std;",
+          "",
+          "int timMax(int a[], int n) {",
+          "    int maxVal = 0; // Lỗi 1: sai nếu mảng toàn số âm",
+          "    for (int i = 0; i <= n; i++) { // Lỗi 2: vượt biên mảng",
+          "        if (a[i] > maxVal) {",
+          "            maxVal = a[i];",
+          "        }",
+          "    }",
+          "    return maxVal;",
+          "}"
+        ].join("\n"),
+        hint1: "1. <strong>Giá trị khởi tạo:</strong> Nếu mảng toàn số âm như <code>{-5, -2, -9}</code>, khởi tạo <code>maxVal = 0</code> sẽ trả về kết quả nào?<br>2. <strong>Biên vòng lặp:</strong> Mảng có <code>n</code> phần tử thì chỉ số hợp lệ chạy từ <code>0</code> đến bao nhiêu? Hãy xem lại điều kiện <code>i &lt;= n</code>.",
+        hint2: "• Khởi tạo <code>maxVal</code> bằng phần tử đầu tiên của mảng (<code>a[0]</code>) thay vì hằng số <code>0</code>.<br>• Đổi điều kiện dừng vòng lặp từ <code>i &lt;= n</code> thành <code>i &lt; n</code> để không truy cập ngoài vùng nhớ.",
+        passiveWarn: "Nếu AI đưa ngay đoạn mã đã sửa hoàn chỉnh, bạn sẽ bỏ qua bước tự phát hiện lỗi tràn biên và lỗi khởi tạo biến. Hãy dùng chế độ Socratic để tự sửa!",
+        checkPass: function(code) {
+          return (code.indexOf("a[0]") !== -1 || code.indexOf("INT_MIN") !== -1) &&
+                 code.indexOf("i < n") !== -1 &&
+                 code.indexOf("i <= n") === -1;
+        },
+        passMsg: "Chính xác! Bạn đã tự sửa cả 2 lỗi: khởi tạo <code>maxVal</code> từ phần tử đầu tiên và giới hạn vòng lặp <code>i &lt; n</code>."
+      },
+
+      prime: {
+        title: "Bài 2 (C++): Kiểm tra số nguyên tố",
+        label: "Bài 2 (C++) — Kiểm tra số nguyên tố n (đang bị ngược logic true/false):",
+        code: [
+          "#include <iostream>",
+          "using namespace std;",
+          "",
+          "bool laSoNguyenTo(int n) {",
+          "    if (n < 2) return true; // Lỗi 1: số < 2 không phải nguyên tố",
+          "    for (int i = 2; i < n; i++) {",
+          "        if (n % i == 0) {",
+          "            return true; // Lỗi 2: tìm thấy ước thì phải loại",
+          "        }",
+          "    }",
+          "    return false; // Lỗi 3: không có ước nào mới là nguyên tố",
+          "}"
+        ].join("\n"),
+        hint1: "1. <strong>Trường hợp biên:</strong> Theo định nghĩa toán học, các số <code>n &lt; 2</code> (như 0, 1, số âm) có phải số nguyên tố không?<br>2. <strong>Logic chia hết:</strong> Khi tìm thấy một số <code>i</code> mà <code>n % i == 0</code>, <code>n</code> là hợp số hay số nguyên tố?",
+        hint2: "• Với <code>n &lt; 2</code>, hàm phải trả về <code>false</code>.<br>• Trong vòng lặp, nếu <code>n % i == 0</code> thì trả về <code>false</code> ngay lập tức; chỉ khi chạy hết vòng lặp mới trả về <code>true</code>.",
+        passiveWarn: "Nhận code sửa sẵn sẽ khiến bạn dễ nhầm lẫn giữa điều kiện chia hết và không chia hết. Hãy thử tự đảo lại giá trị trả về true/false!",
+        checkPass: function(code) {
+          var compact = code.replace(/\s+/g, "");
+          var hasLess2False = compact.indexOf("if(n<2)returnfalse;") !== -1;
+          var hasDivFalse = compact.indexOf("if(n%i==0){returnfalse;}") !== -1 || compact.indexOf("if(n%i==0)returnfalse;") !== -1;
+          var endsTrue = compact.lastIndexOf("returntrue;") > compact.lastIndexOf("returnfalse;");
+          return hasLess2False && hasDivFalse && endsTrue;
+        },
+        passMsg: "Rất tốt! Bạn đã xử lý chuẩn trường hợp <code>n &lt; 2</code> và đảo đúng logic <code>return false</code> khi tìm thấy ước số."
+      },
+
+      factorial: {
+        title: "Bài 3 (C++): Tính giai thừa n!",
+        label: "Bài 3 (C++) — Tính giai thừa n! (đang có 2 lỗi khởi tạo & vòng lặp):",
+        code: [
+          "#include <iostream>",
+          "using namespace std;",
+          "",
+          "long long giaiThua(int n) {",
+          "    long long gt = 0; // Lỗi 1: nhân với 0 sẽ luôn ra 0",
+          "    for (int i = 1; i < n; i++) { // Lỗi 2: thiếu nhân với chính n",
+          "        gt = gt * i;",
+          "    }",
+          "    return gt;",
+          "}"
+        ].join("\n"),
+        hint1: "1. <strong>Phần tử đơn vị phép nhân:</strong> Nếu khởi tạo <code>gt = 0</code> thì <code>gt * i</code> ở mọi vòng lặp bằng bao nhiêu?<br>2. <strong>Cận trên vòng lặp:</strong> Công thức <code>n! = 1 × 2 × ... × n</code> có bao gồm chính giá trị <code>n</code> không?",
+        hint2: "• Đổi giá trị khởi tạo thành <code>long long gt = 1;</code> (đồng thời đúng cả trường hợp <code>0! = 1</code>).<br>• Đổi điều kiện vòng lặp từ <code>i &lt; n</code> thành <code>i &lt;= n</code>.",
+        passiveWarn: "Chép code mẫu sẽ làm bạn bỏ qua quy tắc khởi tạo phần tử đơn vị trong phép nhân và cận trên vòng lặp.",
+        checkPass: function(code) {
+          var compact = code.replace(/\s+/g, "");
+          return compact.indexOf("gt=1;") !== -1 &&
+                 compact.indexOf("gt=0;") === -1 &&
+                 compact.indexOf("i<=n") !== -1;
+        },
+        passMsg: "Chuẩn xác! Bạn đã khởi tạo <code>gt = 1</code> và lặp đủ đến <code>i &lt;= n</code>."
+      },
+
+      palindrome: {
+        title: "Bài 4 (C++): Kiểm tra chuỗi đối xứng",
+        label: "Bài 4 (C++) — Kiểm tra chuỗi đối xứng Palindrome (đang sai công thức đối chiếu):",
+        code: [
+          "#include <iostream>",
+          "#include <string>",
+          "using namespace std;",
+          "",
+          "bool laChuoiDoiXung(string s) {",
+          "    int n = s.length();",
+          "    for (int i = 0; i < n / 2; i++) {",
+          "        if (s[i] != s[n - i]) { // Lỗi: chỉ số cuối cùng của chuỗi là n - 1",
+          "            return false;",
+          "        }",
+          "    }",
+          "    return true;",
+          "}"
+        ].join("\n"),
+        hint1: "1. <strong>Chỉ số ký tự cuối:</strong> Với chuỗi <code>s</code> có độ dài <code>n</code>, ký tự đầu tiên là <code>s[0]</code> thì ký tự cuối cùng nằm ở vị trí <code>n</code> hay <code>n - 1</code>?<br>2. <strong>Thử tay với <code>i = 0</code>:</strong> Khi <code>i = 0</code>, biểu thức <code>s[n - i]</code> đang truy cập vào phần tử nào?",
+        hint2: "• Khi <code>i = 0</code>, <code>s[0]</code> cần đối chiếu với <code>s[n - 1]</code>; khi <code>i = 1</code>, <code>s[1]</code> đối chiếu với <code>s[n - 2]</code>.<br>• Sửa <code>s[n - i]</code> thành <code>s[n - 1 - i]</code> (hoặc <code>s[n - i - 1]</code>).",
+        passiveWarn: "Lỗi lệch 1 đơn vị (off-by-one) là lỗi kinh điển khi xử lý mảng và chuỗi. Hãy tự tính chỉ số đối xứng thay vì xin code!",
+        checkPass: function(code) {
+          var compact = code.replace(/\s+/g, "");
+          return compact.indexOf("s[n-1-i]") !== -1 || compact.indexOf("s[n-i-1]") !== -1;
+        },
+        passMsg: "Tuyệt vời! Bạn đã khắc phục lỗi lệch 1 đơn vị (off-by-one) bằng chỉ số <code>s[n - 1 - i]</code>."
+      },
+
+      binarySearch: {
+        title: "Bài 5 (C++): Tìm kiếm nhị phân",
+        label: "Bài 5 (C++) — Tìm kiếm nhị phân trên mảng tăng dần (đang có 2 lỗi cập nhật biên):",
+        code: [
+          "#include <iostream>",
+          "using namespace std;",
+          "",
+          "int binarySearch(int a[], int n, int x) {",
+          "    int left = 0, right = n - 1;",
+          "    while (left <= right) {",
+          "        int mid = left + (right - left) / 2;",
+          "        if (a[mid] == x) return mid;",
+          "        if (a[mid] < x) {",
+          "            left = mid; // Lỗi 1: có thể gây lặp vô tận khi right - left == 1",
+          "        } else {",
+          "            right = mid; // Lỗi 2: không loại bỏ phần tử mid đã kiểm tra",
+          "        }",
+          "    }",
+          "    return -1;",
+          "}"
+        ].join("\n"),
+        hint1: "1. <strong>Thu hẹp không gian tìm kiếm:</strong> Vì đã kiểm tra <code>a[mid] != x</code> ở dòng trên, phần tử tại vị trí <code>mid</code> có cần nằm trong đoạn tìm kiếm tiếp theo nữa không?<br>2. <strong>Nguy cơ lặp vô tận:</strong> Thử chạy tay với <code>left = 0, right = 1</code> và <code>x &gt; a[1]</code>.",
+        hint2: "• Khi <code>a[mid] &lt; x</code>, cập nhật <code>left = mid + 1;</code>.<br>• Khi <code>a[mid] &gt; x</code>, cập nhật <code>right = mid - 1;</code>.",
+        passiveWarn: "Chép code tìm kiếm nhị phân khiến bạn không hiểu tại sao thuật toán bị treo (vòng lặp vô tận) ở các test case biên.",
+        checkPass: function(code) {
+          var compact = code.replace(/\s+/g, "");
+          return compact.indexOf("left=mid+1;") !== -1 && compact.indexOf("right=mid-1;") !== -1;
+        },
+        passMsg: "Xuất sắc! Cập nhật <code>left = mid + 1</code> và <code>right = mid - 1</code> giúp đảm bảo thuật toán luôn hội tụ và đạt độ phức tạp O(log n)."
+      },
+
+      fractionOOP: {
+        title: "Bài 6 (C++ OOP): Cộng hai Phân số",
+        label: "Bài 6 (C++ OOP) — Nạp chồng toán tử + cho lớp PhanSo (đang sai công thức quy đồng):",
+        code: [
+          "#include <iostream>",
+          "using namespace std;",
+          "",
+          "class PhanSo {",
+          "private:",
+          "    int tu, mau;",
+          "public:",
+          "    PhanSo(int t = 0, int m = 1) : tu(t), mau(m) {}",
+          "    PhanSo operator+(const PhanSo& b) {",
+          "        PhanSo kq;",
+          "        kq.tu = this->tu + b.tu;   // Lỗi 1: cộng thẳng tử số khi khác mẫu",
+          "        kq.mau = this->mau + b.mau; // Lỗi 2: cộng thẳng mẫu số",
+          "        return kq;",
+          "    }",
+          "};"
+        ].join("\n"),
+        hint1: "1. <strong>Quy tắc toán học:</strong> Tổng của hai phân số <code>a/b + c/d</code> có tử số và mẫu số được tính theo công thức nào?<br>2. <strong>Truy cập thuộc tính:</strong> Trong phương thức của lớp <code>PhanSo</code>, phân số thứ nhất là <code>this-&gt;tu, this-&gt;mau</code> và phân số thứ hai là <code>b.tu, b.mau</code>.",
+        hint2: "• Tử số mới: <code>kq.tu = this-&gt;tu * b.mau + b.tu * this-&gt;mau;</code><br>• Mẫu số mới: <code>kq.mau = this-&gt;mau * b.mau;</code>",
+        passiveWarn: "Nếu để AI viết hộ toàn bộ toán tử nạp chồng, bạn sẽ bỏ qua cách ánh xạ công thức toán học sang thuộc tính đối tượng trong C++ OOP.",
+        checkPass: function(code) {
+          var compact = code.replace(/\s+/g, "");
+          var hasCrossTu = (compact.indexOf("tu*b.mau") !== -1 && compact.indexOf("b.tu*mau") !== -1) ||
+                           (compact.indexOf("tu*b.mau") !== -1 && compact.indexOf("b.tu*this->mau") !== -1);
+          var hasMulMau = compact.indexOf("mau*b.mau") !== -1;
+          return hasCrossTu && hasMulMau;
+        },
+        passMsg: "Chính xác! Bạn đã cài đặt đúng công thức quy đồng tử số và nhân mẫu số trong phương thức <code>operator+</code>."
+      },
+
+      sqlGroup: {
+        title: "Bài 7 (SQL): Lọc nhóm điểm trung bình",
+        label: "Bài 7 (SQL) — Lấy các lớp có điểm trung bình >= 8.0 (đang dùng sai mệnh đề lọc):",
+        code: [
+          "SELECT MaLop, AVG(DiemTB) AS DiemTrungBinh",
+          "FROM SinhVien",
+          "WHERE AVG(DiemTB) >= 8.0 -- Lỗi: không dùng hàm gộp AVG() trong WHERE",
+          "GROUP BY MaLop;"
+        ].join("\n"),
+        hint1: "1. <strong>Thứ tự thực thi SQL:</strong> Mệnh đề <code>WHERE</code> lọc từng dòng dữ liệu <em>trước</em> khi gom nhóm, trong khi <code>AVG(DiemTB)</code> chỉ có sau khi chạy <code>GROUP BY</code>.<br>2. <strong>Mệnh đề lọc nhóm:</strong> Trong SQL, từ khóa nào dùng để đặt điều kiện trên kết quả của các hàm gộp (<code>AVG, COUNT, SUM</code>) sau <code>GROUP BY</code>?",
+        hint2: "• Xóa điều kiện <code>WHERE AVG(DiemTB) &gt;= 8.0</code>.<br>• Đặt mệnh đề <code>HAVING AVG(DiemTB) &gt;= 8.0</code> ngay phía sau dòng <code>GROUP BY MaLop</code>.",
+        passiveWarn: "Phân biệt WHERE và HAVING là kiến thức nền tảng của Cơ sở dữ liệu. Hãy tự chuyển điều kiện xuống đúng vị trí!",
+        checkPass: function(code) {
+          var upper = code.toUpperCase();
+          var noWhereAvg = upper.indexOf("WHERE AVG") === -1;
+          var hasHaving = upper.indexOf("HAVING") !== -1 && upper.indexOf("AVG(DIEMTB)") !== -1;
+          var orderOk = upper.indexOf("GROUP BY") < upper.indexOf("HAVING");
+          return noWhereAvg && hasHaving && orderOk;
+        },
+        passMsg: "Chuẩn xác! Bạn đã chuyển điều kiện hàm gộp sang mệnh đề <code>HAVING</code> đặt sau <code>GROUP BY</code>."
+      }
+    };
+
+    var currentMode = "socratic";
+    var solvedSet = {};
+
     function switchTab(tabId, btn) {
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      btn.classList.add('active');
+      var panels = document.querySelectorAll(".tab-panel");
+      for (var i = 0; i < panels.length; i++) {
+        panels[i].classList.remove("active");
+      }
+      var btns = document.querySelectorAll(".tab-btn");
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].classList.remove("active");
+      }
+      var target = document.getElementById(tabId);
+      if (target) {
+        target.classList.add("active");
+      }
+      if (btn) {
+        btn.classList.add("active");
+      }
     }
 
     function filterStudies() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const cat = document.getElementById('focusFilter').value;
-      const rows = document.querySelectorAll('#studiesTable tbody tr');
+      var q = document.getElementById("searchInput").value.toLowerCase();
+      var cat = document.getElementById("focusFilter").value;
+      var rows = document.querySelectorAll("#studiesTable tbody tr");
 
-      rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-        const rowCat = row.getAttribute('data-category');
-        const matchText = text.includes(q);
-        const matchCat = (cat === 'all' || rowCat === cat);
-        row.style.display = (matchText && matchCat) ? '' : 'none';
-      });
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var text = row.innerText.toLowerCase();
+        var rowCat = row.getAttribute("data-category");
+        var matchText = text.indexOf(q) !== -1;
+        var matchCat = (cat === "all" || rowCat === cat);
+        row.style.display = (matchText && matchCat) ? "" : "none";
+      }
     }
 
     function showBloomInfo(title, desc) {
-      const box = document.getElementById('bloomDetail');
-      box.innerHTML = `<strong>${title}:</strong> ${desc}`;
+      var box = document.getElementById("bloomDetail");
+      box.innerHTML = "<strong>" + title + ":</strong> " + desc;
     }
 
-    let currentMode = 'socratic';
+    function updateSolvedBadge() {
+      var count = Object.keys(solvedSet).length;
+      var badge = document.getElementById("solvedBadge");
+      if (badge) {
+        badge.textContent = "Tiến độ hoàn thành: " + count + " / 7 bài";
+      }
+    }
+
+    function loadPresetProblem() {
+      var key = document.getElementById("problemSelect").value;
+      var preset = PRESETS[key] || PRESETS.max;
+      document.getElementById("codeLabel").textContent = preset.label;
+      document.getElementById("studentCode").value = preset.code;
+    }
 
     function setTutorMode(mode) {
       currentMode = mode;
-      const btnS = document.getElementById('btnSocratic');
-      const btnP = document.getElementById('btnPassive');
-      const fill = document.getElementById('meterFill');
-      const score = document.getElementById('autonomyScore');
-      const note = document.getElementById('autonomyNote');
+      var btnS = document.getElementById("btnSocratic");
+      var btnP = document.getElementById("btnPassive");
+      var fill = document.getElementById("meterFill");
+      var score = document.getElementById("autonomyScore");
+      var note = document.getElementById("autonomyNote");
 
-      if (mode === 'socratic') {
-        btnS.className = 'mode-btn active-socratic';
-        btnP.className = 'mode-btn';
-        fill.style.width = '85%';
-        fill.style.background = '#0f766e';
-        score.innerText = '85% (Tốt)';
-        score.style.color = '#0f766e';
-        note.innerText = 'Sinh viên tự phân tích gợi ý và chỉnh sửa mã nguồn thay vì sao chép kết quả cuối cùng.';
+      if (mode === "socratic") {
+        btnS.className = "mode-btn active-socratic";
+        btnP.className = "mode-btn";
+        fill.style.width = "85%";
+        fill.style.background = "#0f766e";
+        score.innerText = "85% (Tốt)";
+        score.style.color = "#0f766e";
+        note.innerText = "Sinh viên tự phân tích gợi ý và chỉnh sửa mã nguồn thay vì sao chép kết quả cuối cùng.";
       } else {
-        btnS.className = 'mode-btn';
-        btnP.className = 'mode-btn active-passive';
-        fill.style.width = '20%';
-        fill.style.background = '#dc2626';
-        score.innerText = '20% (Nguy cơ phụ thuộc cao)';
-        score.style.color = '#dc2626';
-        note.innerText = 'Cảnh báo: Yêu cầu AI viết lại toàn bộ code làm suy giảm tư duy phản biện và vi phạm đạo đức học thuật.';
+        btnS.className = "mode-btn";
+        btnP.className = "mode-btn active-passive";
+        fill.style.width = "20%";
+        fill.style.background = "#dc2626";
+        score.innerText = "20% (Nguy cơ phụ thuộc cao)";
+        score.style.color = "#dc2626";
+        note.innerText = "Cảnh báo: Yêu cầu AI làm hộ/viết lại toàn bộ code làm suy giảm tư duy phản biện và tính trung thực học thuật.";
       }
+    }
+
+    function appendMessage(html, styleType) {
+      var chat = document.getElementById("chatBox");
+      var div = document.createElement("div");
+      if (styleType === "warn") {
+        div.className = "msg msg-warn";
+      } else if (styleType === "hint2") {
+        div.className = "msg msg-hint2";
+      } else {
+        div.className = "msg msg-ai";
+      }
+      div.innerHTML = html;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+      return div;
+    }
+
+    function clearChat() {
+      var chat = document.getElementById("chatBox");
+      chat.innerHTML = '<div class="msg msg-ai"><strong>Trợ giảng Socratic:</strong> Đã làm mới khung hội thoại. Hãy chọn bài tập bên trái để bắt đầu phân tích!</div>';
+    }
+
+    function countChar(str, ch) {
+      var count = 0;
+      for (var i = 0; i < str.length; i++) {
+        if (str.charAt(i) === ch) count++;
+      }
+      return count;
+    }
+
+    function getSyntaxNote(code) {
+      var issues = [];
+      var openParen = countChar(code, "(");
+      var closeParen = countChar(code, ")");
+      var openBrace = countChar(code, "{");
+      var closeBrace = countChar(code, "}");
+      if (openParen !== closeParen) {
+        issues.push("Số dấu ngoặc tròn '(' (" + openParen + ") và ')' (" + closeParen + ") chưa khớp.");
+      }
+      if (openBrace !== closeBrace) {
+        issues.push("Số dấu ngoặc nhọn '{' (" + openBrace + ") và '}' (" + closeBrace + ") chưa khớp.");
+      }
+      return issues.length ? ("<br><br><em>Lưu ý cú pháp:</em> " + issues.join(" ")) : "";
     }
 
     function analyzeCode() {
-      const chat = document.getElementById('chatBox');
-      if (currentMode === 'socratic') {
-        chat.innerHTML += `
-          <div class="msg msg-ai">
-            <strong>Gợi ý Socratic (Không cung cấp code mẫu):</strong><br/>
-            1. <em>Kiểm tra giá trị khởi tạo:</em> Nếu mảng đầu vào gồm toàn số âm (ví dụ: <code>{-5, -2, -9}</code>), biến <code>maxVal = 0</code> sẽ trả về kết quả nào?<br/>
-            2. <em>Kiểm tra điều kiện biên vòng lặp:</em> Mảng có <code>n</code> phần tử thì chỉ số hợp lệ chạy từ <code>0</code> đến bao nhiêu? Hãy xem lại dấu <code>&lt;=</code> ở vòng lặp <code>for</code>.
-          </div>`;
-      } else {
-        chat.innerHTML += `
-          <div class="msg msg-warn">
-            <strong>Cảnh báo Sư phạm (Chế độ Thụ động):</strong><br/>
-            Nếu AI trả về ngay đoạn mã đã sửa hoàn chỉnh, bạn sẽ hoàn thành bài trong 5 giây nhưng bỏ qua bước tự phát hiện lỗi tràn bộ nhớ (Out-of-bounds) và lỗi khởi tạo biến. Hãy chuyển sang <strong>Chế độ Socratic</strong> để tự sửa và kiểm tra!
-          </div>`;
+      var code = document.getElementById("studentCode").value;
+      var presetKey = document.getElementById("problemSelect").value;
+      var preset = PRESETS[presetKey] || PRESETS.max;
+
+      if (currentMode === "passive") {
+        appendMessage("<strong>Cảnh báo Sư phạm (Chế độ Thụ động):</strong><br>" + preset.passiveWarn, "warn");
+        return;
       }
-      chat.scrollTop = chat.scrollHeight;
+
+      var syntaxNote = getSyntaxNote(code);
+      appendMessage("<strong>Gợi ý Socratic — Bước 1 (Câu hỏi định hướng):</strong><br>" + preset.hint1 + syntaxNote, "ai");
+    }
+
+    function deepHint() {
+      var presetKey = document.getElementById("problemSelect").value;
+      var preset = PRESETS[presetKey] || PRESETS.max;
+
+      if (currentMode === "passive") {
+        appendMessage("<strong>Cảnh báo Sư phạm (Chế độ Thụ động):</strong><br>" + preset.passiveWarn, "warn");
+        return;
+      }
+
+      appendMessage("<strong>Gợi ý sâu hơn — Bước 2 (Chốt điểm cần sửa, không đưa code mẫu):</strong><br>" + preset.hint2, "hint2");
     }
 
     function checkFix() {
-      const code = document.getElementById('studentCode').value;
-      const chat = document.getElementById('chatBox');
-      const fixedInit = code.includes('a[0]') || code.includes('INT_MIN');
-      const fixedLoop = code.includes('i < n') && !code.includes('i <= n');
+      var code = document.getElementById("studentCode").value;
+      var presetKey = document.getElementById("problemSelect").value;
+      var preset = PRESETS[presetKey] || PRESETS.max;
+      var syntaxNote = getSyntaxNote(code);
 
-      if (fixedInit && fixedLoop) {
-        document.getElementById('meterFill').style.width = '100%';
-        document.getElementById('autonomyScore').innerText = '100% (Xuất sắc)';
-        chat.innerHTML += `
-          <div class="msg msg-ai" style="border-left-color:#16a34a;">
-            <strong>Chính xác!</strong> Bạn đã tự khắc phục cả 2 lỗi: khởi tạo <code>maxVal = a[0]</code> để xử lý đúng mảng số âm và sửa điều kiện dừng thành <code>i &lt; n</code>. Tư duy gỡ lỗi độc lập của bạn được ghi nhận!
-          </div>`;
-      } else {
-        chat.innerHTML += `
-          <div class="msg msg-ai">
-            <strong>Chưa hoàn tất:</strong> Vẫn còn ít nhất một lỗi logic trong code của bạn (${!fixedInit ? 'kiểm tra lại giá trị khởi tạo maxVal' : ''}${(!fixedInit && !fixedLoop) ? ' và ' : ''}${!fixedLoop ? 'kiểm tra lại điều kiện dừng vòng lặp i <= n' : ''}). Hãy thử chỉnh trực tiếp trong khung code rồi bấm kiểm tra lại nhé!
-          </div>`;
+      if (syntaxNote) {
+        appendMessage("<strong>Lỗi cú pháp cơ bản:</strong>" + syntaxNote, "warn");
+        return;
       }
-      chat.scrollTop = chat.scrollHeight;
-    }
 
-    function resetCode() {
-      document.getElementById('studentCode').value = `#include <iostream>
-using namespace std;
-
-int timMax(int a[], int n) {
-    int maxVal = 0; // Lỗi tiềm ẩn khi mảng toàn số âm
-    for (int i = 0; i <= n; i++) { // Lỗi vượt biên mảng (i <= n)
-        if (a[i] > maxVal) {
-            maxVal = a[i];
-        }
-    }
-    return maxVal;
-}`;
+      if (preset.checkPass(code)) {
+        solvedSet[presetKey] = true;
+        updateSolvedBadge();
+        document.getElementById("meterFill").style.width = "100%";
+        document.getElementById("autonomyScore").innerText = "100% (Xuất sắc)";
+        document.getElementById("autonomyScore").style.color = "#0f766e";
+        appendMessage("<strong>Đạt yêu cầu (" + preset.title + "):</strong><br>" + preset.passMsg, "ai");
+      } else {
+        appendMessage("<strong>Chưa chính xác:</strong><br>Đoạn mã của bạn vẫn còn lỗi logic theo tiêu chí của <em>" + preset.title + "</em>. Hãy xem lại gợi ý Bước 1 hoặc nhấn <em>\"Gợi ý sâu hơn (Bước 2)\"</em> để rà soát tiếp.", "warn");
+      }
     }
 
     function evaluateQuiz() {
-      let total = 0;
-      let answered = 0;
-      for (let i = 1; i <= 3; i++) {
-        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      var total = 0;
+      var answered = 0;
+      for (var i = 1; i <= 3; i++) {
+        var sel = document.querySelector('input[name="q' + i + '"]:checked');
         if (sel) {
           total += parseInt(sel.value, 10);
           answered++;
         }
       }
-      const res = document.getElementById('quizResult');
+      var res = document.getElementById("quizResult");
       if (answered < 3) {
         res.innerHTML = '<span style="color:#dc2626;">Vui lòng trả lời đầy đủ cả 3 câu hỏi trước khi xem kết quả.</span>';
         return;
       }
       if (total >= 5) {
-        res.innerHTML = `<div class="msg msg-ai"><strong>Điểm số: ${total}/6 — Người học Chủ động & Phản biện:</strong> Bạn đang khai thác AI đúng định hướng "đồng tác giả" hỗ trợ tư duy mà vẫn giữ vững năng lực lập trình cốt lõi.</div>`;
+        res.innerHTML = '<div class="msg msg-ai"><strong>Điểm số: ' + total + '/6 — Người học Chủ động & Phản biện:</strong> Bạn đang khai thác AI đúng định hướng "đồng tác giả" hỗ trợ tư duy mà vẫn giữ vững năng lực lập trình cốt lõi.</div>';
       } else if (total >= 3) {
-        res.innerHTML = `<div class="msg msg-ai" style="border-left-color:#d97706;"><strong>Điểm số: ${total}/6 — Mức độ Cân bằng (Cần lưu ý):</strong> Bạn có sử dụng AI để hiểu bài nhưng đôi lúc vẫn dựa vào mã nguồn có sẵn. Hãy ưu tiên tự viết nháp trước khi hỏi AI.</div>`;
+        res.innerHTML = '<div class="msg msg-ai" style="border-left-color:#d97706;"><strong>Điểm số: ' + total + '/6 — Mức độ Cân bằng (Cần lưu ý):</strong> Bạn có sử dụng AI để hiểu bài nhưng đôi lúc vẫn dựa vào mã nguồn có sẵn. Hãy ưu tiên tự viết nháp trước khi hỏi AI.</div>';
       } else {
-        res.innerHTML = `<div class="msg msg-warn"><strong>Điểm số: ${total}/6 — Nguy cơ Phụ thuộc Kỹ thuật Cao:</strong> Việc sao chép trực tiếp mã nguồn từ AI dễ làm suy giảm tư duy thuật toán và vi phạm tính trung thực học thuật. Hãy áp dụng thử các mẫu Prompt bên cạnh!</div>`;
+        res.innerHTML = '<div class="msg msg-warn"><strong>Điểm số: ' + total + '/6 — Nguy cơ Phụ thuộc Kỹ thuật Cao:</strong> Việc sao chép trực tiếp mã nguồn từ AI dễ làm suy giảm tư duy thuật toán và vi phạm tính trung thực học thuật. Hãy áp dụng thử các mẫu Prompt bên cạnh!</div>';
       }
     }
 
     function copyPrompt(btn) {
-      const codeEl = btn.parentElement.nextElementSibling;
-      navigator.clipboard.writeText(codeEl.innerText.replace(/^"|"$/g, ''));
-      const old = btn.innerText;
-      btn.innerText = 'Đã chép!';
-      setTimeout(() => btn.innerText = old, 1500);
+      var codeEl = btn.parentElement.nextElementSibling;
+      var text = codeEl.innerText.replace(/^"|"$/g, "");
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text);
+      }
+      var old = btn.innerText;
+      btn.innerText = "Đã chép!";
+      setTimeout(function() {
+        btn.innerText = old;
+      }, 1500);
     }
+
+    // Khởi tạo ban đầu
+    loadPresetProblem();
+    updateSolvedBadge();
   </script>
 </body>
 </html>
